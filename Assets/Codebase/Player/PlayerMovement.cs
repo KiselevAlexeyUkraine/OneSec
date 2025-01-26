@@ -14,6 +14,9 @@ namespace Codebase.Player
         [SerializeField]
         private GroundChecker _groundChecker;
 
+        [SerializeField] 
+        private Transform _transformMeshForRotate;
+
         private DesktopInput _desktopInput = new();
 
         private Rigidbody _rigidbody;
@@ -25,11 +28,6 @@ namespace Codebase.Player
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
-
-            if (_desktopInput == null)
-            {
-                Debug.LogError("DesktopInput is not assigned!");
-            }
 
             if (_groundChecker == null)
             {
@@ -49,6 +47,8 @@ namespace Codebase.Player
             {
                 _jumpRequested = true;
             }
+
+            HandleRotation();
         }
 
         private void FixedUpdate()
@@ -78,6 +78,19 @@ namespace Codebase.Player
             {
                 // Применяем силу прыжка
                 _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            }
+        }
+
+        private void HandleRotation()
+        {
+            // Поворот на 180 градусов при нажатии клавиш A и D
+            if (_desktopInput.Horizontal < 0) // Нажата клавиша A
+            {
+                _transformMeshForRotate.rotation = Quaternion.Euler(0f, 180f, 0f);
+            }
+            else if (_desktopInput.Horizontal > 0) // Нажата клавиша D
+            {
+                _transformMeshForRotate.rotation = Quaternion.Euler(0f, 0f, 0f);
             }
         }
     }
