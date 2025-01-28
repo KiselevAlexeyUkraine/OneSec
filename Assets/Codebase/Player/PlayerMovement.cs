@@ -19,8 +19,6 @@ namespace Codebase.Player
         [SerializeField]
         private float _moveSpeed = 5f;
         [SerializeField]
-        private float _rotationSpeed = 10f;
-        [SerializeField]
         private float _jumpForce = 10f;
         [SerializeField]
         private float _gravity = -9.81f;
@@ -64,7 +62,7 @@ namespace Codebase.Player
                 HandleIdle();
             }
 
-            if (_desktopInput.Jump && IsGrounded && CanJump)
+            if (_desktopInput.Jump)
             {
                 PerformJump();
             }
@@ -76,7 +74,7 @@ namespace Codebase.Player
         {
             _characterController.Move(_inputMovement * (_moveSpeed * Time.deltaTime));
 
-            RotateTowardsDirection(_inputMovement);
+            RotateTowardsDirection(ref _inputMovement);
         }
 
         private void HandleStates()
@@ -92,7 +90,7 @@ namespace Codebase.Player
             IsMoving = false;
         }
 
-        private void RotateTowardsDirection(Vector3 desiredDirection)
+        private void RotateTowardsDirection(ref Vector3 desiredDirection)
         {
             if (desiredDirection != Vector3.zero)
             {
@@ -109,9 +107,12 @@ namespace Codebase.Player
 
         private void PerformJump()
         {
-            _velocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravity);
-            CanJump = false;
-            OnJump?.Invoke();
+            if (IsGrounded)
+            {
+                _velocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravity);
+                CanJump = false;
+                OnJump?.Invoke();
+            }
         }
 
         private void ApplyGravity()
@@ -128,17 +129,26 @@ namespace Codebase.Player
             {
                 CanJump = true;
             }
+
+            // Р•СЃР»Рё РёРіСЂРѕРє СѓРґР°СЂСЏРµС‚СЃСЏ Рѕ РїР»Р°С‚С„РѕСЂРјСѓ РіРѕР»РѕРІРѕР№, РјРіРЅРѕРІРµРЅРЅРѕ РѕС‚С‚Р°Р»РєРёРІР°РµРј РІРЅРёР·
+            if ((_characterController.collisionFlags & CollisionFlags.Above) != 0)
+            {
+                _velocity.y = -1f; // РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕ РѕС‚С‚Р°Р»РєРёРІР°РµРј РІРЅРёР·
+                _characterController.Move(new Vector3(0, -0.1f, 0)); // Р”РІРёРіР°РµРј РІРЅРёР·, С‡С‚РѕР±С‹ РѕС‚Р»РёРї
+            }
+
+
         }
 
         /// <summary>
-        /// Телепортирует игрока или перемещает его мгновенно в указанное направление, даже если он находится в прыжке.
+        /// РўРµР»РµРїРѕСЂС‚РёСЂСѓРµС‚ РёРіСЂРѕРєР° РёР»Рё РїРµСЂРµРјРµС‰Р°РµС‚ РµРіРѕ РјРіРЅРѕРІРµРЅРЅРѕ РІ СѓРєР°Р·Р°РЅРЅРѕРµ РЅР°РїСЂР°РІР»РµРЅРёРµ, РґР°Р¶Рµ РµСЃР»Рё РѕРЅ РЅР°С…РѕРґРёС‚СЃСЏ РІ РїСЂС‹Р¶РєРµ.
         /// </summary>
-        /// <param name="direction">Направление и расстояние для перемещения.</param>
+        /// <param name="direction">РќР°РїСЂР°РІР»РµРЅРёРµ Рё СЂР°СЃСЃС‚РѕСЏРЅРёРµ РґР»СЏ РїРµСЂРµРјРµС‰РµРЅРёСЏ.</param>
         public void MoveForward(Vector3 direction)
         {
-            _characterController.enabled = false; // Выключаем контроллер для корректного телепорта
-            transform.position += direction; // Мгновенно перемещаем игрока
-            _characterController.enabled = true; // Включаем контроллер обратно
+            _characterController.enabled = false; // Р’С‹РєР»СЋС‡Р°РµРј РєРѕРЅС‚СЂРѕР»Р»РµСЂ РґР»СЏ РєРѕСЂСЂРµРєС‚РЅРѕРіРѕ С‚РµР»РµРїРѕСЂС‚Р°
+            transform.position += direction; // РњРіРЅРѕРІРµРЅРЅРѕ РїРµСЂРµРјРµС‰Р°РµРј РёРіСЂРѕРєР°
+            _characterController.enabled = true; // Р’РєР»СЋС‡Р°РµРј РєРѕРЅС‚СЂРѕР»Р»РµСЂ РѕР±СЂР°С‚РЅРѕ
         }
     }
 }
