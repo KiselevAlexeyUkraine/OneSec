@@ -237,10 +237,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 218438467}
-  - component: {fileID: 218438468}
-  - component: {fileID: 218438473}
   - component: {fileID: 218438472}
   - component: {fileID: 218438471}
+  - component: {fileID: 218438473}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -265,29 +264,6 @@ Transform:
   - {fileID: 2081632096}
   m_Father: {fileID: 1404966843}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &218438468
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 218438466}
-  m_Material: {fileID: 13400000, guid: 8ff33029bb398c649a61d1eae6b61636, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &218438471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +280,7 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 8
-  _groundCheckRadius: 0.2
+  _groundCheckRadius: 0.4
 --- !u!114 &218438472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,37 +293,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bdcf48a1998e0746a00d6e5e8c9ccc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 10
   _groundChecker: {fileID: 218438471}
   _transformMeshForRotate: {fileID: 2081632096}
---- !u!54 &218438473
-Rigidbody:
+  _moveSpeed: 5
+  _rotationSpeed: 10
+  _jumpForce: 4
+  _gravity: -9.81
+  <CanJump>k__BackingField: 0
+  <IsGrounded>k__BackingField: 0
+  <Idle>k__BackingField: 0
+  <IsMoving>k__BackingField: 0
+--- !u!143 &218438473
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218438466}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 120
-  m_CollisionDetection: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &252471636
 GameObject:
   m_ObjectHideFlags: 0

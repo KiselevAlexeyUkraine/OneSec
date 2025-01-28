@@ -1,33 +1,47 @@
 using Codebase.Services.Inputs;
+using System;
 using UnityEngine;
 
 namespace Codebase.Player
 {
-    [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(Collider))]
-    public class PlayerMovementPhysics : MonoBehaviour
+    [RequireComponent(typeof(CharacterController))]
+    public class PlayerMovement : MonoBehaviour
     {
-        [Header("Movement Settings")]
-        [SerializeField] private float moveSpeed = 5f; // Скорость передвижения
-        [SerializeField] private float jumpForce = 10f; // Сила прыжка
+        public Action OnMoving;
+        public Action OnJump;
 
         [SerializeField]
         private GroundChecker _groundChecker;
 
-        [SerializeField] 
+        [SerializeField]
         private Transform _transformMeshForRotate;
 
+        [SerializeField]
+        private float _moveSpeed = 5f;
+        [SerializeField]
+        private float _rotationSpeed = 10f;
+        [SerializeField]
+        private float _jumpForce = 10f;
+        [SerializeField]
+        private float _gravity = -9.81f;
+
+        private CharacterController _characterController;
+        private Vector3 _velocity;
+        private Vector3 _inputMovement;
         private DesktopInput _desktopInput = new();
 
-        private Rigidbody _rigidbody;
-        private bool _isGrounded;
-
-        private Vector3 _movementInput;
-        private bool _jumpRequested;
+        [field: SerializeField]
+        public bool CanJump { get; private set; }
+        [field: SerializeField]
+        public bool IsGrounded { get; private set; }
+        [field: SerializeField]
+        public bool Idle { get; private set; }
+        [field: SerializeField]
+        public bool IsMoving { get; private set; }
 
         private void Awake()
         {
-            _rigidbody = GetComponent<Rigidbody>();
+            _characterController = GetComponent<CharacterController>();
 
             if (_groundChecker == null)
             {
@@ -37,61 +51,94 @@ namespace Codebase.Player
 
         private void Update()
         {
-            // Получаем ввод пользователя только по горизонтальной оси
-            _movementInput = new Vector3(_desktopInput.Horizontal, 0f, 0f);
-            _movementInput = _movementInput.normalized;
+            IsGrounded = _groundChecker.IsGrounded;
 
-            _isGrounded = _groundChecker.IsGrounded;
+            _inputMovement = new Vector3(_desktopInput.Horizontal, 0f, 0f);
 
-            if (_desktopInput.Jump && _isGrounded)
+            if (_inputMovement != Vector3.zero)
             {
-                _jumpRequested = true;
+                HandleStates();
+            }
+            else
+            {
+                HandleIdle();
             }
 
-            HandleRotation();
-        }
-
-        private void FixedUpdate()
-        {
-            MovePlayer();
-
-            if (_jumpRequested)
+            if (_desktopInput.Jump && IsGrounded && CanJump)
             {
                 PerformJump();
-                _jumpRequested = false;
             }
+
+            ApplyGravity();
         }
 
-        private void MovePlayer()
+        private void LateUpdate()
         {
-            // Преобразуем движение относительно камеры
-            Vector3 moveDirection = transform.TransformDirection(_movementInput) * moveSpeed;
-            Vector3 velocity = new Vector3(moveDirection.x, _rigidbody.velocity.y, _rigidbody.velocity.z);
+            _characterController.Move(_inputMovement * (_moveSpeed * Time.deltaTime));
 
-            // Применяем скорость к Rigidbody
-            _rigidbody.velocity = velocity;
+            RotateTowardsDirection(_inputMovement);
+        }
+
+        private void HandleStates()
+        {
+            Idle = false;
+            IsMoving = true;
+            OnMoving?.Invoke();
+        }
+
+        private void HandleIdle()
+        {
+            Idle = true;
+            IsMoving = false;
+        }
+
+        private void RotateTowardsDirection(Vector3 desiredDirection)
+        {
+            if (desiredDirection != Vector3.zero)
+            {
+                if (desiredDirection.x < 0 && _transformMeshForRotate.localRotation.y == 0)
+                {
+                    _transformMeshForRotate.rotation = Quaternion.Euler(0f, 180f, 0f);
+                }
+                else if (desiredDirection.x > 0 && _transformMeshForRotate.localRotation.y != 0)
+                {
+                    _transformMeshForRotate.rotation = Quaternion.Euler(0f, 0f, 0f);
+                }
+            }
         }
 
         private void PerformJump()
         {
-            if (_isGrounded)
+            _velocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravity);
+            CanJump = false;
+            OnJump?.Invoke();
+        }
+
+        private void ApplyGravity()
+        {
+            if (IsGrounded && _velocity.y < 0f)
             {
-                // Применяем силу прыжка
-                _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                _velocity.y = -1f;
+            }
+
+            _velocity.y += _gravity * Time.deltaTime;
+            _characterController.Move(_velocity * Time.deltaTime);
+
+            if (IsGrounded && !CanJump)
+            {
+                CanJump = true;
             }
         }
 
-        private void HandleRotation()
+        /// <summary>
+        /// Телепортирует игрока или перемещает его мгновенно в указанное направление, даже если он находится в прыжке.
+        /// </summary>
+        /// <param name="direction">Направление и расстояние для перемещения.</param>
+        public void MoveForward(Vector3 direction)
         {
-            // Поворот на 180 градусов при нажатии клавиш A и D
-            if (_desktopInput.Horizontal < 0) // Нажата клавиша A
-            {
-                _transformMeshForRotate.rotation = Quaternion.Euler(0f, 180f, 0f);
-            }
-            else if (_desktopInput.Horizontal > 0) // Нажата клавиша D
-            {
-                _transformMeshForRotate.rotation = Quaternion.Euler(0f, 0f, 0f);
-            }
+            _characterController.enabled = false; // Выключаем контроллер для корректного телепорта
+            transform.position += direction; // Мгновенно перемещаем игрока
+            _characterController.enabled = true; // Включаем контроллер обратно
         }
     }
 }
