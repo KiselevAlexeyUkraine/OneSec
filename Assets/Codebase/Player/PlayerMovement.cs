@@ -37,6 +37,8 @@ namespace Codebase.Player
         [field: SerializeField]
         public bool IsMoving { get; private set; }
 
+        public bool IsOnPlatform = false;
+
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
@@ -117,9 +119,24 @@ namespace Codebase.Player
 
         private void ApplyGravity()
         {
+            //if (IsOnPlatform == true)
+            //{
+            //    _velocity.y = 0f;
+            //    _velocity.y += _gravity * Time.deltaTime;
+            //}
+            //else
+            //{
+            //    if (IsGrounded && _velocity.y < 0f)
+            //    {
+            //        _velocity.y = _gravity;
+            //    }
+
+            //    _velocity.y += _gravity * Time.deltaTime;
+            //}
+
             if (IsGrounded && _velocity.y < 0f)
             {
-                _velocity.y = -1f;
+                _velocity.y = _gravity;
             }
 
             _velocity.y += _gravity * Time.deltaTime;
@@ -150,5 +167,6 @@ namespace Codebase.Player
             transform.position += direction; // Мгновенно перемещаем игрока
             _characterController.enabled = true; // Включаем контроллер обратно
         }
+
     }
 }
