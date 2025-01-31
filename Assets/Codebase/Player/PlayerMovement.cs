@@ -38,6 +38,7 @@ namespace Codebase.Player
         public bool IsMoving { get; private set; }
 
         public bool IsOnPlatform = false;
+        private bool IsJumping = false; // Новый флаг для корректной работы прыжка с платформ
 
         private void Awake()
         {
@@ -51,7 +52,7 @@ namespace Codebase.Player
 
         private void Update()
         {
-            IsGrounded = _groundChecker.IsGrounded;
+            IsGrounded = _groundChecker.IsGrounded || IsOnPlatform;
 
             _inputMovement = new Vector3(_desktopInput.Horizontal, 0f, 0f);
 
@@ -109,34 +110,27 @@ namespace Codebase.Player
 
         private void PerformJump()
         {
-            if (IsGrounded)
+            if (IsGrounded) // Теперь можно прыгать с платформы
             {
                 _velocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravity);
                 CanJump = false;
+                IsJumping = true; // Фиксируем, что игрок прыгнул
                 OnJump?.Invoke();
             }
         }
 
         private void ApplyGravity()
         {
-            //if (IsOnPlatform == true)
-            //{
-            //    _velocity.y = 0f;
-            //    _velocity.y += _gravity * Time.deltaTime;
-            //}
-            //else
-            //{
-            //    if (IsGrounded && _velocity.y < 0f)
-            //    {
-            //        _velocity.y = _gravity;
-            //    }
-
-            //    _velocity.y += _gravity * Time.deltaTime;
-            //}
+            if (IsOnPlatform && !IsJumping)
+            {
+                _velocity.y = 0f; // Отключаем гравитацию, если стоим на платформе и не прыгаем
+                return;
+            }
 
             if (IsGrounded && _velocity.y < 0f)
             {
                 _velocity.y = _gravity;
+                IsJumping = false; // Сбрасываем флаг прыжка при приземлении
             }
 
             _velocity.y += _gravity * Time.deltaTime;
@@ -153,8 +147,6 @@ namespace Codebase.Player
                 _velocity.y = -1f; // Принудительно отталкиваем вниз
                 _characterController.Move(new Vector3(0, -0.1f, 0)); // Двигаем вниз, чтобы отлип
             }
-
-
         }
 
         /// <summary>
@@ -167,6 +159,5 @@ namespace Codebase.Player
             transform.position += direction; // Мгновенно перемещаем игрока
             _characterController.enabled = true; // Включаем контроллер обратно
         }
-
     }
 }
