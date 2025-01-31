@@ -26,7 +26,9 @@ namespace Codebase.Player
         private CharacterController _characterController;
         private Vector3 _velocity;
         private Vector3 _inputMovement;
-        private DesktopInput _desktopInput = new();
+
+        [SerializeField]
+        private DesktopInput _desktopInput;
 
         [field: SerializeField]
         public bool CanJump { get; private set; }

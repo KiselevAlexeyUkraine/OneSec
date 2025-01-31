@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour
         {
             _playerHealth.OnPlayerDied += EndLevel;
         }
+
     }
 
     private void OnDestroy()
@@ -29,8 +30,8 @@ public class LevelManager : MonoBehaviour
 
     private void EndLevel()
     {
-        Debug.Log("Уровень завершен. Игрок погиб.");
-        Time.timeScale = 0; // Останавливаем игру
+        Debug.Log("РЈСЂРѕРІРµРЅСЊ Р·Р°РІРµСЂС€РµРЅ. РРіСЂРѕРє РїРѕРіРёР±.");
+        Time.timeScale = 0; // РћСЃС‚Р°РЅР°РІР»РёРІР°РµРј РёРіСЂСѓ
         cursorToggle.Enable();
         playerMovement.IsDie = true;
         _pageSwitcher.Open(PageName.Failed);

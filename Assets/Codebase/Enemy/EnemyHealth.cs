@@ -5,6 +5,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     [SerializeField] private int maxHealth = 3;
     private int _currentHealth;
     private EnemyDeathEffect _deathEffect;
+    public bool IsDie { get; private set; }
 
     private void Awake()
     {
@@ -14,7 +15,17 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(int amount)
     {
-        _currentHealth -= amount;
-        if (_currentHealth <= 0) _deathEffect.Die();
+        if (_currentHealth > 0)
+        {
+            _currentHealth -= amount;
+            Debug.Log("Наносим урон врагу");
+            if (_currentHealth <= 0)
+            {
+                _deathEffect.Die();
+                IsDie = true;
+            }
+
+        }
+
     }
 }

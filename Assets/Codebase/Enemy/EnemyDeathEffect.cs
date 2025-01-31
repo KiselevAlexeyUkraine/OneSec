@@ -3,9 +3,17 @@ using PrimeTween;
 
 public class EnemyDeathEffect : MonoBehaviour
 {
+    private BoxCollider m_BoxCollider;
+
+    private void Awake()
+    {
+        m_BoxCollider = GetComponent<BoxCollider>();
+    }
+
     public void Die()
     {
         GetComponent<EnemyMovement>().enabled = false; // Отключаем движение
+        m_BoxCollider.enabled = false;
 
         Tween.LocalScale(transform, new Vector3(1f, 0.3f, 1f), 0.2f, Ease.InBounce)
             .OnComplete(() =>

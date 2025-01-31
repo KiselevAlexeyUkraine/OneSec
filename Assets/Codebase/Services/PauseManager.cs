@@ -1,5 +1,6 @@
 using Codebase.Player;
 using Codebase.Services.Inputs;
+using Player;
 using UI;
 using UnityEngine;
 
@@ -12,11 +13,12 @@ namespace Services
 
         private CursorToggle _cursorToggle = new();
 
-        private DesktopInput _desktopInput = new();
-
         public bool IsPaused { get; private set; }
 
         [SerializeField] private PlayerMovement playerMovement;
+        [SerializeField] private PlayerCombat playerCombat;
+        [SerializeField]
+        private DesktopInput _desktopInput;
 
         private void Awake()
         {
@@ -36,6 +38,7 @@ namespace Services
             Time.timeScale = 0f;
             _cursorToggle.Enable();
             playerMovement.enabled = false;
+            playerCombat.enabled = false;
         }
 
         public void Play()
@@ -43,6 +46,7 @@ namespace Services
             Time.timeScale = 1f;
             _cursorToggle.Disable();
             playerMovement.enabled = true;
+            playerCombat.enabled = true;
         }
 
         public void SwitchState()

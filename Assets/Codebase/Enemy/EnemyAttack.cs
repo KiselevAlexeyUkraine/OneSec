@@ -7,22 +7,29 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField] private float attackCooldown = 1f; // Время между атаками
     [SerializeField] private string targetTag = "Player"; // Тэг цели (по умолчанию - игрок)
 
+    private EnemyHealth enemyHealth;
+
     private float _lastAttackTime;
+
+    private void Awake()
+    {
+        enemyHealth = GetComponent<EnemyHealth>();
+    }
 
     private void OnTriggerStay(Collider other)
     {
-        if (Time.time > _lastAttackTime + attackCooldown && other.CompareTag(targetTag))
+        if (enemyHealth.IsDie == false)
         {
-            IDamageable target = other.GetComponent<IDamageable>();
-            if (target != null)
+            if (Time.time > _lastAttackTime + attackCooldown && other.CompareTag(targetTag))
             {
-                target.TakeDamage(damage);
-                _lastAttackTime = Time.time; // Обновляем время атаки
+                IDamageable target = other.GetComponent<IDamageable>();
+                if (target != null)
+                {
+                    target.TakeDamage(damage);
+                    _lastAttackTime = Time.time; // Обновляем время атаки
+                    Debug.Log("Мы прикоснулись к пауку");
+                }
             }
-        }
-        if (other.CompareTag(targetTag))
-        {
-            Debug.Log("Мы прикоснулись к пауку");
         }
     }
 }
