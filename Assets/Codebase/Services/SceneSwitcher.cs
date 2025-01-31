@@ -7,8 +7,6 @@ public class SceneSwitcher : MonoBehaviour
 
     public int CurrentScene { get => SceneManager.GetActiveScene().buildIndex; }
 
-    //[SerializeField] private GameObject[] cameras;
-
     private void Awake()
     {
         Instance = this;
