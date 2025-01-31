@@ -1,3 +1,4 @@
+using Codebase.Player;
 using Codebase.Services.Inputs;
 using UI;
 using UnityEngine;
@@ -9,21 +10,22 @@ namespace Services
         [SerializeField]
         private PageSwitcher _pageSwitcher;
 
-        private CursorToggle _cursorToggle;
+        private CursorToggle _cursorToggle = new();
 
         private DesktopInput _desktopInput = new();
 
         public bool IsPaused { get; private set; }
 
+        [SerializeField] private PlayerMovement playerMovement;
+
         private void Awake()
         {
-            _cursorToggle = new CursorToggle();
             Play();
         }
 
         private void Update()
         {
-            if (_desktopInput.Escape)
+            if (_desktopInput.Escape && playerMovement.IsDie == false)
             {
                 SwitchState();
             }
@@ -33,12 +35,14 @@ namespace Services
         {
             Time.timeScale = 0f;
             _cursorToggle.Enable();
+            playerMovement.enabled = false;
         }
 
         public void Play()
         {
             Time.timeScale = 1f;
             _cursorToggle.Disable();
+            playerMovement.enabled = true;
         }
 
         public void SwitchState()

@@ -9,7 +9,7 @@ public class EnemyAttack : MonoBehaviour
 
     private float _lastAttackTime;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (Time.time > _lastAttackTime + attackCooldown && other.CompareTag(targetTag))
         {

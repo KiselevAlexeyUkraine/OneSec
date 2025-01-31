@@ -36,6 +36,8 @@ namespace Codebase.Player
         public bool Idle { get; private set; }
         [field: SerializeField]
         public bool IsMoving { get; private set; }
+        public bool IsDie { get; set; }
+
 
         public bool IsOnPlatform = false;
         private bool IsJumping = false; // Новый флаг для корректной работы прыжка с платформ
@@ -52,6 +54,9 @@ namespace Codebase.Player
 
         private void Update()
         {
+            if (IsDie == true)
+                return;
+            
             IsGrounded = _groundChecker.IsGrounded || IsOnPlatform;
 
             _inputMovement = new Vector3(_desktopInput.Horizontal, 0f, 0f);
@@ -129,7 +134,7 @@ namespace Codebase.Player
 
             if (IsGrounded && _velocity.y < 0f)
             {
-                _velocity.y = _gravity;
+                _velocity.y = _gravity + 5f;
                 IsJumping = false; // Сбрасываем флаг прыжка при приземлении
             }
 
