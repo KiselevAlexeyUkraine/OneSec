@@ -1,7 +1,7 @@
 using UnityEngine;
 using Codebase.Player;
-using UI;
-using Services;
+using Codebase.Components.Ui.Pages;
+
 
 public class LevelManager : MonoBehaviour
 {

@@ -1,10 +1,12 @@
-namespace UI
+namespace Codebase.Components.Ui.Pages
+
 {
     public enum PageName
     {
         None,
         Start,
         Menu,
+        Records,
         Settings,
         Authors,
         Exit,
@@ -13,5 +15,10 @@ namespace UI
         Complete,
         Stats,
         GameSettings,
+        GameStart,
+        GameExit,
+        MenuStart,
+        GameRestart
+
     }
 }

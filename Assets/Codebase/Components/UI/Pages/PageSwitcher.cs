@@ -1,7 +1,9 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UI
+namespace Codebase.Components.Ui.Pages
+
 {
     public class PageSwitcher : MonoBehaviour
     {
@@ -23,7 +25,7 @@ namespace UI
             {
                 if (page.pageName != _startPage)
                 {
-                    page.Close().Forget();
+                    page.CloseInstantly();
                     continue;
                 }
 
@@ -32,15 +34,15 @@ namespace UI
             }
         }
 
-        public void Open(PageName pageName)
+        public async UniTaskVoid Open(PageName pageName)
         {
             for (var i = 0; i < _pages.Count; i++)
             {
                 if (_pages[i].pageName == pageName)
                 {
-                    _currentPage.Close().Forget();
+                    await _currentPage.Close();
                     _currentPage = _pages[i];
-                    _currentPage.Open().Forget();
+                    await _currentPage.Open();
                     return;
                 }
             }

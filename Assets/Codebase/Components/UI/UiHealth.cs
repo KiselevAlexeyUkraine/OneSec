@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using Codebase.Player;
 using UnityEngine;
 
-namespace Codebase.UI.Game
+namespace Codebase.Components.Ui
+
 {
     /// <summary>
     /// Класс для управления отображением здоровья игрока в UI.

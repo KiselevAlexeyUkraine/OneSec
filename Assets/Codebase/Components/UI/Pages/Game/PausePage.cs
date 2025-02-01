@@ -2,7 +2,8 @@ using Services;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Game
+namespace Codebase.Components.Ui.Pages.Game
+
 {
     /// <summary>
     /// Класс отвечает за управление страницей паузы, предоставляя кнопки для продолжения игры, перезапуска, настроек и выхода.

@@ -1,7 +1,7 @@
 using Codebase.Player;
 using Codebase.Services.Inputs;
 using Player;
-using UI;
+using Codebase.Components.Ui.Pages;
 using UnityEngine;
 
 namespace Services

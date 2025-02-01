@@ -1800,7 +1800,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 172.5, y: -172.5}
+  m_AnchoredPosition: {x: 172.5, y: -97.5}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &573610798
@@ -2145,7 +2145,7 @@ GameObject:
   - component: {fileID: 824525383}
   - component: {fileID: 824525381}
   m_Layer: 0
-  m_Name: Settings
+  m_Name: GameSettings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2163,7 +2163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 459c9e35acabc2d4d8dfc1d70ae63c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pageName: 10
+  pageName: 11
+  openFade: {x: 0, y: 1, z: 0.2}
+  closeFade: {x: 1, y: 0, z: 0.2}
   _group: {fileID: 824525383}
   _back: {fileID: 535190107}
 --- !u!224 &824525382
@@ -2942,7 +2944,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45e753c3a707a048b42cdf1c99a291a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pageName: 6
+  pageName: 7
+  openFade: {x: 0, y: 1, z: 0.2}
+  closeFade: {x: 1, y: 0, z: 0.2}
   _group: {fileID: 1071386652}
   _continue: {fileID: 773994896}
   _restart: {fileID: 249216346}
@@ -3503,7 +3507,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344853b8c43a8424ea293b45b03f4da7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pageName: 7
+  pageName: 8
+  openFade: {x: 0, y: 1, z: 0.2}
+  closeFade: {x: 1, y: 0, z: 0.2}
   _group: {fileID: 1274305975}
   _restart: {fileID: 480815941}
   _exit: {fileID: 1881801454}
@@ -4351,7 +4357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147c99e3d2d3ffa45ac2ec4bd18643b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startPage: 9
+  _startPage: 10
   _pages:
   - {fileID: 1071386655}
   - {fileID: 1886587832}
@@ -5860,7 +5866,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9db81f34e7ded35439f136a48ae8ff1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pageName: 9
+  pageName: 10
+  openFade: {x: 0, y: 1, z: 0.2}
+  closeFade: {x: 1, y: 0, z: 0.2}
   _group: {fileID: 1886587830}
 --- !u!1 &1901132427
 GameObject:
@@ -6193,7 +6201,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b333febd582cf42bf5e145d5e24ce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pageName: 8
+  pageName: 9
+  openFade: {x: 0, y: 1, z: 0.2}
+  closeFade: {x: 1, y: 0, z: 0.2}
   _group: {fileID: 1953522196}
   _nextLevel: {fileID: 1819859819}
   _restart: {fileID: 1871128156}
