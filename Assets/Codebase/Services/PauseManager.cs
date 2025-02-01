@@ -4,7 +4,8 @@ using Player;
 using Codebase.Components.Ui.Pages;
 using UnityEngine;
 
-namespace Services
+namespace Codebase.Services
+
 {
     public class PauseManager : MonoBehaviour
     {
@@ -27,9 +28,19 @@ namespace Services
 
         private void Update()
         {
-            if (_desktopInput.Escape && playerMovement.IsDie == false)
+            if (_desktopInput.Escape)
             {
-                SwitchState();
+                if (playerMovement != null)
+                {
+                    if (playerMovement.IsDie == false)
+                    {
+                        SwitchState();
+                    }
+                }
+                else
+                {
+                    SwitchState();
+                }
             }
         }
 
@@ -37,16 +48,25 @@ namespace Services
         {
             Time.timeScale = 0f;
             _cursorToggle.Enable();
-            playerMovement.enabled = false;
-            playerCombat.enabled = false;
+            if (playerMovement != null && playerCombat != null)
+            {
+                playerMovement.enabled = false;
+                playerCombat.enabled = false;
+            }
+
         }
 
         public void Play()
         {
             Time.timeScale = 1f;
             _cursorToggle.Disable();
-            playerMovement.enabled = true;
-            playerCombat.enabled = true;
+
+            if (playerMovement != null && playerCombat != null)
+            {
+                playerMovement.enabled = true;
+                playerCombat.enabled = true;
+            }
+
         }
 
         public void SwitchState()
