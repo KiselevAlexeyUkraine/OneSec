@@ -1,3 +1,4 @@
+using Codebase.Player;
 using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
@@ -5,10 +6,9 @@ public class EnemyAttack : MonoBehaviour
     [Header("Attack Settings")]
     [SerializeField] private int damage = 1; // Урон
     [SerializeField] private float attackCooldown = 1f; // Время между атаками
-    [SerializeField] private string targetTag = "Player"; // Тэг цели (по умолчанию - игрок)
+    [SerializeField] private LayerMask _targetLayerMask; // Слой цели (например, игрок)
 
     private EnemyHealth enemyHealth;
-
     private float _lastAttackTime;
 
     private void Awake()
@@ -18,16 +18,18 @@ public class EnemyAttack : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (enemyHealth.IsDie == false)
+        if (!enemyHealth.IsDie && Time.time > _lastAttackTime + attackCooldown)
         {
-            if (Time.time > _lastAttackTime + attackCooldown && other.CompareTag(targetTag))
+            // Проверяем, принадлежит ли объект заданному слою
+            if (((1 << other.gameObject.layer) & _targetLayerMask.value) != 0)
             {
+                other.GetComponent<PlayerMovement>().PerformJump();
                 IDamageable target = other.GetComponent<IDamageable>();
                 if (target != null)
                 {
                     target.TakeDamage(damage);
                     _lastAttackTime = Time.time; // Обновляем время атаки
-                    Debug.Log("Мы прикоснулись к пауку");
+                    Debug.Log("Атака врага по цели");
                 }
             }
         }

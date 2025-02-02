@@ -115,7 +115,7 @@ namespace Codebase.Player
             }
         }
 
-        private void PerformJump()
+        public void PerformJump()
         {
             if (IsGrounded) // Теперь можно прыгать с платформы
             {

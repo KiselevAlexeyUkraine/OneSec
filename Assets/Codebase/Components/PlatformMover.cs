@@ -6,9 +6,10 @@ public class PlatformMover : MonoBehaviour
     [SerializeField] private Transform[] _waypoints; // Массив точек, по которым будет двигаться платформа
     [SerializeField] private float _speed = 2f; // Скорость движения платформы
     [SerializeField] private bool _loop = true; // Будет ли платформа двигаться циклически
+    [SerializeField] private LayerMask _playerLayerMask; // Слой, определяющий, что считается игроком
 
     private int _currentWaypointIndex = 0; // Текущая точка назначения
-    private bool _isReversing = false; // Направление движения (только для нецикличного режима)
+    private bool _isReversing = false; // Направление движения (для нецикличного режима)
     private Vector3 _previousPosition;
 
     private void Start()
@@ -69,29 +70,41 @@ public class PlatformMover : MonoBehaviour
         }
     }
 
+    // Обработка входа в триггер, проверка по слою
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        // Проверяем, принадлежит ли объект заданному слою с использованием битовой маски
+        if (((1 << other.gameObject.layer) & _playerLayerMask.value) != 0)
         {
-            other.GetComponent<PlayerMovement>().IsOnPlatform = true;
+            PlayerMovement playerMovement = other.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.IsOnPlatform = true;
+            }
             other.transform.SetParent(transform, true);
         }
     }
 
+    // Обработка выхода из триггера, проверка по слою
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (((1 << other.gameObject.layer) & _playerLayerMask.value) != 0)
         {
-            other.GetComponent<PlayerMovement>().IsOnPlatform = false;
+            PlayerMovement playerMovement = other.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.IsOnPlatform = false;
+            }
             other.transform.SetParent(null, true);
         }
     }
 
+    // Обновление движения вложенных объектов (например, игрока)
     private void UpdateAttachedObjects(Vector3 movementDelta)
     {
         foreach (Transform child in transform)
         {
-            if (child.CompareTag("Player"))
+            if (((1 << child.gameObject.layer) & _playerLayerMask.value) != 0)
             {
                 CharacterController controller = child.GetComponent<CharacterController>();
                 if (controller != null)
