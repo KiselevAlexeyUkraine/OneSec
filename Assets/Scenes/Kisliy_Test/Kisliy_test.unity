@@ -821,6 +821,7 @@ MonoBehaviour:
   _moveSpeed: 5
   _jumpForce: 3
   _gravity: -9.81
+  _enemyBounceMultiplier: 3
   _desktopInput: {fileID: 1070241143}
   <CanJump>k__BackingField: 0
   <IsGrounded>k__BackingField: 0

@@ -1,34 +1,39 @@
-using Codebase.Player;
 using UnityEngine;
+using Codebase.Player;
 
 public class EnemyAttack : MonoBehaviour
 {
     [Header("Attack Settings")]
     [SerializeField] private int damage = 1; // Урон
-    [SerializeField] private float attackCooldown = 1f; // Время между атаками
     [SerializeField] private LayerMask _targetLayerMask; // Слой цели (например, игрок)
 
     private EnemyHealth enemyHealth;
-    private float _lastAttackTime;
 
     private void Awake()
     {
         enemyHealth = GetComponent<EnemyHealth>();
     }
 
-    private void OnTriggerStay(Collider other)
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (!enemyHealth.IsDie && Time.time > _lastAttackTime + attackCooldown)
+        if (!enemyHealth.IsDie)
         {
             // Проверяем, принадлежит ли объект заданному слою
             if (((1 << other.gameObject.layer) & _targetLayerMask.value) != 0)
             {
-                other.GetComponent<PlayerMovement>().PerformJump();
+                PlayerMovement playerMovement = other.GetComponent<PlayerMovement>();
+                if (playerMovement != null)
+                {
+
+                    // чтобы игрок подпрыгнул, даже если не считается находящимся на земле
+                    playerMovement.PerformJump(true);
+                }
+
                 IDamageable target = other.GetComponent<IDamageable>();
                 if (target != null)
                 {
                     target.TakeDamage(damage);
-                    _lastAttackTime = Time.time; // Обновляем время атаки
                     Debug.Log("Атака врага по цели");
                 }
             }
