@@ -17,7 +17,7 @@ namespace Codebase.Components.Ui.Pages.Menu
 
         private void Awake()
         {
-
+            Time.timeScale = 1f;
             cursorToggle.Enable();
             Opened += () => { PageSwitcher.Open(PageName.Menu).Forget(); };
         }
