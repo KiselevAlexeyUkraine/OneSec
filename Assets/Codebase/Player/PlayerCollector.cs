@@ -39,7 +39,7 @@ namespace Codebase.Player
             {
                 _keysCount++; // Увеличиваем количество собранных ключей
                 OnKeysChanged?.Invoke(_keysCount); // Оповещаем подписчиков об изменении количества
-                Destroy(other.gameObject); // Удаляем объект-ключ из сцены
+                other.GetComponent<KeyPickupEffect>().Pickup();
             }
         }
     }

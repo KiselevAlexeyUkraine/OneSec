@@ -8,6 +8,8 @@ public class LevelCompleteDoor : MonoBehaviour
     [SerializeField] private Animator _doorAnimator;       // Аниматор двери (если используется анимация)
     [SerializeField] private string _openTrigger = "Open";   // Имя триггера для анимации открытия двери
     [SerializeField] private LevelManager _levelManager;
+    [SerializeField] private AudioSource _doorAudio; // Аудио для звука открытия двери
+    [SerializeField] private AudioClip _doorOpenClip; // Звук открытия двери
 
     private bool _isDoorOpened = false;
 
@@ -58,7 +60,14 @@ public class LevelCompleteDoor : MonoBehaviour
             Debug.Log("Дверь открыта (аниматор не назначен)!");
         }
 
+        // Воспроизведение звука открытия двери
+        if (_doorAudio != null && _doorOpenClip != null)
+        {
+            _doorAudio.PlayOneShot(_doorOpenClip);
+        }
+
         // Дополнительная логика завершения уровня (например, загрузка следующей сцены)
         Debug.Log("Уровень завершён!");
+
     }
 }
