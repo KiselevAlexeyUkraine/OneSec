@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Codebase.Services.Inputs
 {
-    public class DesktopInput : IInputService
+    public class DesktopInput : MonoBehaviour, IInputService
     {
         public float Horizontal => Input.GetAxisRaw("Horizontal");
         public bool Jump => Input.GetKeyDown(KeyCode.Space);

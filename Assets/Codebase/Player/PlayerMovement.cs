@@ -26,7 +26,9 @@ namespace Codebase.Player
         private CharacterController _characterController;
         private Vector3 _velocity;
         private Vector3 _inputMovement;
-        private DesktopInput _desktopInput = new();
+
+        [SerializeField]
+        private DesktopInput _desktopInput;
 
         [field: SerializeField]
         public bool CanJump { get; private set; }
@@ -36,6 +38,10 @@ namespace Codebase.Player
         public bool Idle { get; private set; }
         [field: SerializeField]
         public bool IsMoving { get; private set; }
+        public bool IsDie { get; set; }
+
+        public bool IsOnPlatform = false;
+        private bool IsJumping = false; // Флаг для корректной работы прыжка с платформ
 
         private void Awake()
         {
@@ -43,13 +49,17 @@ namespace Codebase.Player
 
             if (_groundChecker == null)
             {
-                Debug.LogError("GroundChecker is not assigned!");
+                Debug.LogError("GroundChecker не назначен!");
             }
         }
 
         private void Update()
         {
-            IsGrounded = _groundChecker.IsGrounded;
+            if (IsDie)
+                return;
+
+            // Игрок считается на земле, если либо GroundChecker, либо он находится на платформе
+            IsGrounded = _groundChecker.IsGrounded || IsOnPlatform;
 
             _inputMovement = new Vector3(_desktopInput.Horizontal, 0f, 0f);
 
@@ -62,6 +72,7 @@ namespace Codebase.Player
                 HandleIdle();
             }
 
+            // Прыжок по нажатию клавиши
             if (_desktopInput.Jump)
             {
                 PerformJump();
@@ -73,7 +84,6 @@ namespace Codebase.Player
         private void LateUpdate()
         {
             _characterController.Move(_inputMovement * (_moveSpeed * Time.deltaTime));
-
             RotateTowardsDirection(ref _inputMovement);
         }
 
@@ -105,21 +115,40 @@ namespace Codebase.Player
             }
         }
 
-        private void PerformJump()
+        /// <summary>
+        /// Выполняет прыжок.
+        /// Если enemyBounce == true, прыжок выполняется независимо от состояния IsGrounded,
+        /// что позволяет отскочить, даже если игрок стоит на враге.
+        /// </summary>
+        /// <param name="enemyBounce">Если true — прыжок при атаке врага.</param>
+        public void PerformJump(bool enemyBounce = false)
         {
-            if (IsGrounded)
+            // Если прыжок инициирован врагом, игнорируем проверку на IsGrounded
+            if (IsGrounded || enemyBounce)
             {
+                // Сбрасываем состояние платформы, чтобы гравитация не затирала начальную скорость прыжка
+                IsOnPlatform = false;
+                // Используем _jumpForce для расчёта начальной скорости прыжка
                 _velocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravity);
                 CanJump = false;
+                IsJumping = true;
                 OnJump?.Invoke();
             }
         }
 
         private void ApplyGravity()
         {
+            // Если игрок находится на платформе и не прыгает, не применять гравитацию
+            if (IsOnPlatform && !IsJumping)
+            {
+                _velocity.y = 0f;
+                return;
+            }
+
             if (IsGrounded && _velocity.y < 0f)
             {
-                _velocity.y = -1f;
+                _velocity.y = _gravity + 5f;
+                IsJumping = false;
             }
 
             _velocity.y += _gravity * Time.deltaTime;
@@ -130,25 +159,23 @@ namespace Codebase.Player
                 CanJump = true;
             }
 
-            // Если игрок ударяется о платформу головой, мгновенно отталкиваем вниз
+            // Если игрок ударяется о потолок, отталкиваем его вниз
             if ((_characterController.collisionFlags & CollisionFlags.Above) != 0)
             {
-                _velocity.y = -1f; // Принудительно отталкиваем вниз
-                _characterController.Move(new Vector3(0, -0.1f, 0)); // Двигаем вниз, чтобы отлип
+                _velocity.y = -1f;
+                _characterController.Move(new Vector3(0, -0.1f, 0));
             }
-
-
         }
 
         /// <summary>
-        /// Телепортирует игрока или перемещает его мгновенно в указанное направление, даже если он находится в прыжке.
+        /// Мгновенно перемещает игрока в заданном направлении (например, для телепортации).
         /// </summary>
-        /// <param name="direction">Направление и расстояние для перемещения.</param>
+        /// <param name="direction">Направление и расстояние перемещения.</param>
         public void MoveForward(Vector3 direction)
         {
-            _characterController.enabled = false; // Выключаем контроллер для корректного телепорта
-            transform.position += direction; // Мгновенно перемещаем игрока
-            _characterController.enabled = true; // Включаем контроллер обратно
+            _characterController.enabled = false;
+            transform.position += direction;
+            _characterController.enabled = true;
         }
     }
 }

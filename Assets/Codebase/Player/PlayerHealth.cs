@@ -6,9 +6,10 @@ namespace Codebase.Player
     /// <summary>
     /// Класс отвечает за управление здоровьем игрока, его увеличением, уменьшением и связными событиями.
     /// </summary>
-    public class PlayerHealth : MonoBehaviour
+    public class PlayerHealth : MonoBehaviour, IDamageable
     {
         public event Action OnHealthChanged;
+        public event Action OnPlayerDied; // Событие смерти игрока
 
         [SerializeField]
         private int _maxHealth = 5;
@@ -38,7 +39,24 @@ namespace Codebase.Player
             {
                 _health = Mathf.Clamp(_health - amount, 0, _maxHealth);
                 OnHealthChanged?.Invoke();
+
+                if (_health <= 0)
+                {
+                    Die();
+                }
             }
+        }
+
+        public void TakeDamage(int amount)
+        {
+            DecreaseHealth(amount);
+        }
+
+        private void Die()
+        {
+            Debug.Log("Игрок умер!");
+            OnPlayerDied?.Invoke();
+            // Здесь можно добавить респаун или завершение игры
         }
     }
 }
