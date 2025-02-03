@@ -13,10 +13,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatformMoverHorizontal (enable)
       objectReference: {fileID: 0}
+    - target: {fileID: 3181299404988445878, guid: f1cbe7f21df2f8844a49f1315ca9c33e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cd9baf388d2016419b92ac96977ec0e, type: 2}
     - target: {fileID: 6182037094184867102, guid: f1cbe7f21df2f8844a49f1315ca9c33e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.882
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6182037094184867102, guid: f1cbe7f21df2f8844a49f1315ca9c33e,
         type: 3}
@@ -62,6 +67,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8608366723764536703, guid: f1cbe7f21df2f8844a49f1315ca9c33e,
+        type: 3}
+      propertyPath: _speed
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

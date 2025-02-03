@@ -8,10 +8,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1492146971312699282, guid: a4f5a358df9205247a5e09ff5abe6ee9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3cd9baf388d2016419b92ac96977ec0e, type: 2}
     - target: {fileID: 4276944844344038790, guid: a4f5a358df9205247a5e09ff5abe6ee9,
         type: 3}
       propertyPath: m_Name
-      value: PlatformMoverVertical Variant
+      value: PlatformMoverVertical (enable)
       objectReference: {fileID: 0}
     - target: {fileID: 6003754735870990204, guid: a4f5a358df9205247a5e09ff5abe6ee9,
         type: 3}
