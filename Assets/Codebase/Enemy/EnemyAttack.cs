@@ -9,6 +9,7 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField] private Animator _animator; // Аниматор врага
     [SerializeField] private AudioSource _audioSource; // Универсальный аудиофайл
     [SerializeField] private AudioClip _attackClip; // Звук атаки
+    [SerializeField] private AudioClip _deathClip; // Звук атаки
     [SerializeField] private AudioClip _patrolClip; // Звук патрулирования
 
     private EnemyHealth enemyHealth;
@@ -91,11 +92,22 @@ public class EnemyAttack : MonoBehaviour
 
     public void EnemyDie()
     {
+        if (_audioSource != null && _deathClip != null)
+        {
+            _audioSource.clip = _deathClip;
+            _audioSource.loop = false;
+            _audioSource.Play();
+        }
+    }
+
+    public void EnemyTakeDamageSoud()
+    {
         if (_audioSource != null && _attackClip != null)
         {
             _audioSource.clip = _attackClip;
             _audioSource.loop = false;
             _audioSource.Play();
+            Invoke(nameof(StartPatrolSound), _attackClip.length); // Возвращаем патрульный звук после атаки
         }
     }
 }
