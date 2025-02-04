@@ -77,10 +77,7 @@ public class EnemyAttack : MonoBehaviour
 
                     if (_audioSource != null && _attackClip != null)
                     {
-                        _audioSource.clip = _attackClip;
-                        _audioSource.loop = false;
-                        _audioSource.Play();
-                        Invoke(nameof(StartPatrolSound), _attackClip.length); // Возвращаем патрульный звук после атаки
+                        EnemyTakeDamageSoud();
                     }
 
                     target.TakeDamage(damage);
