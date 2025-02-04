@@ -4,15 +4,18 @@ using PrimeTween;
 public class EnemyDeathEffect : MonoBehaviour
 {
     private BoxCollider m_BoxCollider;
+    [SerializeField] private ParticleSystem m_ParticleSystem;
 
     private void Awake()
     {
         m_BoxCollider = GetComponent<BoxCollider>();
+        m_ParticleSystem.Stop();
     }
 
     public void Die()
     {
         GetComponent<EnemyMovement>().enabled = false; // Отключаем движение
+        GetComponent<EnemyAttack>().EnemyDie();
         m_BoxCollider.enabled = false;
 
         Tween.LocalScale(transform, new Vector3(1f, 0.3f, 1f), 0.2f, Ease.InBounce)
@@ -26,5 +29,10 @@ public class EnemyDeathEffect : MonoBehaviour
                     )
                 )
             );
+    }
+
+    public void TakeDamage()
+    {
+        m_ParticleSystem.Play();
     }
 }

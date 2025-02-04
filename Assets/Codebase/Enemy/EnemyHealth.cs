@@ -19,6 +19,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         {
             _currentHealth -= amount;
             Debug.Log("Наносим урон врагу");
+            _deathEffect.TakeDamage();
             if (_currentHealth <= 0)
             {
                 _deathEffect.Die();
