@@ -7,11 +7,16 @@ public class LevelCompleteDoor : MonoBehaviour
     [SerializeField] private LayerMask _playerLayerMask; // Слой, определяющий игрока
     [SerializeField] private Animator _doorAnimator;       // Аниматор двери (если используется анимация)
     [SerializeField] private string _openTrigger = "Open";   // Имя триггера для анимации открытия двери
-    [SerializeField] private LevelManager _levelManager;
+    private LevelManager _levelManager;
     [SerializeField] private AudioSource _doorAudio; // Аудио для звука открытия двери
     [SerializeField] private AudioClip _doorOpenClip; // Звук открытия двери
 
     private bool _isDoorOpened = false;
+
+    private void Awake()
+    {
+        _levelManager = FindObjectOfType<LevelManager>();
+    }
 
     /// <summary>
     /// При входе объекта в область завершения уровня проверяем, является ли он игроком.

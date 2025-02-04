@@ -31,17 +31,17 @@ namespace Codebase.Player
         private DesktopInput _desktopInput;
 
         [field: SerializeField]
-        public bool CanJump { get; private set; }
+        public bool JustJumped { get; private set; }
         [field: SerializeField]
         public bool IsGrounded { get; private set; }
         [field: SerializeField]
-        public bool Idle { get; private set; }
+        public bool IsIdle { get; private set; }
         [field: SerializeField]
         public bool IsMoving { get; private set; }
         public bool IsDie { get; set; }
 
         public bool IsOnPlatform = false;
-        private bool IsJumping = false; // Флаг для корректной работы прыжка с платформ
+        public bool IsJumping { get; set; }
 
         private void Awake()
         {
@@ -89,14 +89,14 @@ namespace Codebase.Player
 
         private void HandleStates()
         {
-            Idle = false;
+            IsIdle = false;
             IsMoving = true;
             OnMoving?.Invoke();
         }
 
         private void HandleIdle()
         {
-            Idle = true;
+            IsIdle = true;
             IsMoving = false;
         }
 
@@ -130,7 +130,7 @@ namespace Codebase.Player
                 IsOnPlatform = false;
                 // Используем _jumpForce для расчёта начальной скорости прыжка
                 _velocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravity);
-                CanJump = false;
+                JustJumped = false;
                 IsJumping = true;
                 OnJump?.Invoke();
             }
@@ -154,9 +154,9 @@ namespace Codebase.Player
             _velocity.y += _gravity * Time.deltaTime;
             _characterController.Move(_velocity * Time.deltaTime);
 
-            if (IsGrounded && !CanJump)
+            if (IsGrounded && !JustJumped)
             {
-                CanJump = true;
+                JustJumped = true;
             }
 
             // Если игрок ударяется о потолок, отталкиваем его вниз

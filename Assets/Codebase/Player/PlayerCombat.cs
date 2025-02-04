@@ -1,3 +1,4 @@
+using Codebase.Player;
 using Codebase.Services.Inputs;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace Player
         [SerializeField] private float _attackRange = 2f; // Дистанция удара
         [SerializeField] private int _damage = 1; // Наносимый урон
         [SerializeField] private Transform _attackPoint; // Точка атаки (например, центр персонажа)
+        [SerializeField] private Animator _playerAnimation;
 
         [SerializeField]
         private DesktopInput _desktopInput;
@@ -26,6 +28,8 @@ namespace Player
         private void Attack()
         {
             Collider[] hitEnemies = Physics.OverlapSphere(_attackPoint.position, _attackRange, _enemyLayer);
+
+            _playerAnimation.SetTrigger("Shoot");
 
             foreach (Collider enemy in hitEnemies)
             {

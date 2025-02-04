@@ -9,25 +9,24 @@ namespace Codebase.Player
         private PlayerMovement _movement;
         private Animator _animator;
 
+        private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+        private static readonly int IsJumping = Animator.StringToHash("IsJumping");
+        private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
+
         private void Awake()
         {
             _animator = GetComponent<Animator>();
             _movement = GetComponent<PlayerMovement>();
         }
 
-        // Кэшированные хэши параметров анимации для повышения производительности.
-        private readonly int _idle = Animator.StringToHash("Idle");
-        private readonly int _isMoving = Animator.StringToHash("IsMoving");
-        private readonly int _canJump = Animator.StringToHash("CanJump");
-        private readonly int _isGrounded = Animator.StringToHash("IsGrounded");
-
-        // Обновляет состояния анимации каждый кадр.
         private void Update()
         {
-            _animator.SetBool(_isMoving, _movement.IsMoving);
-            _animator.SetBool(_idle, _movement.Idle);
-            _animator.SetBool(_canJump, _movement.CanJump);
-            _animator.SetBool(_isGrounded, _movement.IsGrounded);
+            // Устанавливаем состояние движения
+            _animator.SetBool(IsMoving, _movement.IsMoving);
+
+            // Устанавливаем состояние прыжка и приземления
+            _animator.SetBool(IsJumping, _movement.IsJumping);
+            _animator.SetBool(IsGrounded, _movement.IsGrounded);
         }
     }
 }
