@@ -16,7 +16,7 @@ namespace Codebase.Components.Ui.Pages.Menu
 
         private void Awake()
         {
-            _start.onClick.AddListener(() => { PageSwitcher.Open(PageName.Start); });
+            _start.onClick.AddListener(() => { SceneSwitcher.Instance.LoadNextScene(); });
             _settings.onClick.AddListener(() => { PageSwitcher.Open(PageName.Settings); });
             _authors.onClick.AddListener(() => { PageSwitcher.Open(PageName.Authors); });
             _exit.onClick.AddListener(() => { PageSwitcher.Open(PageName.Exit); });

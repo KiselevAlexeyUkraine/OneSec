@@ -23,7 +23,7 @@ namespace Codebase.Components.Ui.Pages.Game
             _restart.onClick.AddListener(() => { SceneSwitcher.Instance.LoadScene(SceneSwitcher.Instance.CurrentScene); });
 
             // Переход в главное меню.
-            _exit.onClick.AddListener(() => { SceneSwitcher.Instance.LoadScene(0); });
+            _exit.onClick.AddListener(() => { SceneSwitcher.Instance.LoadScene(1); });
 
         }
 
