@@ -7,6 +7,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private PageSwitcher _pageSwitcher;
     [SerializeField] private PlayerMovement _playerMovement;
+    [SerializeField] private PlayerCombat _playerCombat;
     [SerializeField] private CursorToggle _cursorToggle = new();
 
     private void Awake()
@@ -34,6 +35,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Уровень завершён. Игрок погиб.");
         Time.timeScale = 0; // Останавливаем игру
         _cursorToggle.Enable();
+        _playerCombat.enabled = false;
         _playerMovement.IsDie = true;
         _pageSwitcher.Open(PageName.Failed);
     }
@@ -47,6 +49,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Уровень завершён. Победа!");
         Time.timeScale = 0; // Останавливаем игру
         _cursorToggle.Enable();
+        _playerCombat.enabled = false;
         _playerMovement.IsDie = true; // Фиксируем состояние игрока (например, чтобы остановить дальнейшее управление)
         _pageSwitcher.Open(PageName.Complete); // Здесь предполагается, что у вас есть страница для победы
     }

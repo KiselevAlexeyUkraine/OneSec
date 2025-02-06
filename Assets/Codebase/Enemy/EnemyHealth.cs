@@ -1,35 +1,40 @@
 using UnityEngine;
+using System;
 
-public class EnemyHealth : MonoBehaviour, IDamageable
+namespace Enemy
 {
-    [SerializeField] private int maxHealth = 3;
-    private int _currentHealth;
-    private EnemyDeathEffect _deathEffect;
-    private EnemyAttack enemyAttack;
-    public bool IsDie { get; private set; }
-
-    private void Awake()
+    public class EnemyHealth : MonoBehaviour, IDamageable
     {
-        _currentHealth = maxHealth;
-        _deathEffect = GetComponent<EnemyDeathEffect>();
-        enemyAttack = GetComponent<EnemyAttack>();
-    }
+        public event Action OnEnemyDied;
+        public event Action OnEnemyDamaged;
 
-    public void TakeDamage(int amount)
-    {
-        if (_currentHealth > 0)
+        [SerializeField] private int maxHealth = 3;
+        private int _currentHealth;
+        private EnemyDeathEffect _deathEffect;
+        public bool IsDie { get; private set; }
+
+        private void Awake()
         {
-            _currentHealth -= amount;
-            Debug.Log("Наносим урон врагу");
-            _deathEffect.TakeDamage();
-            enemyAttack.EnemyTakeDamageSoud();
-            if (_currentHealth <= 0)
-            {
-                _deathEffect.Die();
-                IsDie = true;
-            }
-
+            _currentHealth = maxHealth;
+            _deathEffect = GetComponent<EnemyDeathEffect>();
         }
 
+        public void TakeDamage(int amount)
+        {
+            if (_currentHealth > 0)
+            {
+                _currentHealth -= amount;
+                Debug.Log("Наносим урон врагу");
+                _deathEffect.TakeDamage();
+                OnEnemyDamaged?.Invoke();
+
+                if (_currentHealth <= 0)
+                {
+                    _deathEffect.Die();
+                    IsDie = true;
+                    OnEnemyDied?.Invoke();
+                }
+            }
+        }
     }
 }

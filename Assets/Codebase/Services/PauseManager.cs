@@ -1,6 +1,5 @@
 using Codebase.Player;
 using Codebase.Services.Inputs;
-using Player;
 using Codebase.Components.Ui.Pages;
 using UnityEngine;
 

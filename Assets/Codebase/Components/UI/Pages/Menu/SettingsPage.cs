@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Codebase.Components.Ui.Pages.Game
+namespace Codebase.Components.Ui.Pages.Menu
 {
-    public class GameSettingsPage : BasePage
+    public class SettingsPage : BasePage
     {
         [SerializeField]
         private Button _back;
@@ -26,7 +26,14 @@ namespace Codebase.Components.Ui.Pages.Game
 
         private void Awake()
         {
-            _back.onClick.AddListener(() => { PageSwitcher.Open(PageName.Pause).Forget(); });
+            
+            if (_audioService == null)
+            {
+                Debug.Log("Аудио сорсе равен нулю");
+            }
+
+
+            _back.onClick.AddListener(() => { PageSwitcher.Open(PageName.Menu); });
             _masterVolume.onValueChanged.AddListener(value => _audioService.SetMasterVolume(value));
             _soundsVolume.onValueChanged.AddListener(value => _audioService.SetSoundsVolume(value));
             _musicVolume.onValueChanged.AddListener(value => _audioService.SetMusicVolume(value));

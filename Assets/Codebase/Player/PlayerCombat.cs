@@ -1,27 +1,25 @@
-using Codebase.Player;
 using Codebase.Services.Inputs;
+using System;
 using UnityEngine;
 
-namespace Player
+namespace Codebase.Player
 {
     public class PlayerCombat : MonoBehaviour
     {
+        public event Action OnAttack; // Добавляем событие атаки
+
         [SerializeField] private LayerMask _enemyLayer; // Слой врагов
         [SerializeField] private float _attackRange = 2f; // Дистанция удара
         [SerializeField] private int _damage = 1; // Наносимый урон
         [SerializeField] private Transform _attackPoint; // Точка атаки (например, центр персонажа)
         [SerializeField] private Animator _playerAnimation;
-
-        [SerializeField]
-        private DesktopInput _desktopInput;
-
+        [SerializeField] private DesktopInput _desktopInput;
 
         private void Update()
         {
             if (_desktopInput.Fire) // ЛКМ
             {
                 Attack();
-                
             }
         }
 
@@ -38,6 +36,8 @@ namespace Player
                     enemyHealth.TakeDamage(_damage);
                 }
             }
+
+            OnAttack?.Invoke(); // Вызываем событие атаки
         }
 
         private void OnDrawGizmosSelected()

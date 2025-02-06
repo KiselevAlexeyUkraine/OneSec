@@ -1,110 +1,57 @@
 using UnityEngine;
+using System;
 using Codebase.Player;
 
-public class EnemyAttack : MonoBehaviour
+namespace Enemy
 {
-    [Header("Attack Settings")]
-    [SerializeField] private int damage = 1; // Урон
-    [SerializeField] private LayerMask _targetLayerMask; // Слой цели (например, игрок)
-    [SerializeField] private Animator _animator; // Аниматор врага
-    [SerializeField] private AudioSource _audioSource; // Универсальный аудиофайл
-    [SerializeField] private AudioClip _attackClip; // Звук атаки
-    [SerializeField] private AudioClip _deathClip; // Звук атаки
-    [SerializeField] private AudioClip _patrolClip; // Звук патрулирования
-
-    private EnemyHealth enemyHealth;
-    private bool isPatrolling = true;
-
-    private readonly int _attackTrigger = Animator.StringToHash("Attack");
-
-    private void Awake()
+    public class EnemyAttack : MonoBehaviour
     {
-        enemyHealth = GetComponent<EnemyHealth>();
+        public event Action OnEnemyAttack;
 
-        if (_animator == null)
+        [Header("Attack Settings")]
+        [SerializeField] private int damage = 1; // Урон
+        [SerializeField] private LayerMask _targetLayerMask; // Слой цели (например, игрок)
+        [SerializeField] private Animator _animator; // Аниматор врага
+
+        private EnemyHealth enemyHealth;
+        private readonly int _attackTrigger = Animator.StringToHash("Attack");
+
+        private void Awake()
         {
-            _animator = GetComponent<Animator>();
+            enemyHealth = GetComponent<EnemyHealth>();
+
             if (_animator == null)
             {
-                Debug.LogError("Animator не найден на враге!");
-            }
-        }
-
-        if (_audioSource == null)
-        {
-            _audioSource = GetComponent<AudioSource>();
-            if (_audioSource == null)
-            {
-                Debug.LogError("AudioSource не найден на враге!");
-            }
-        }
-
-        StartPatrolSound();
-    }
-
-    private void StartPatrolSound()
-    {
-        if (_audioSource != null && _patrolClip != null)
-        {
-            _audioSource.clip = _patrolClip;
-            _audioSource.loop = true;
-            _audioSource.Play();
-            isPatrolling = true;
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!enemyHealth.IsDie)
-        {
-            if (((1 << other.gameObject.layer) & _targetLayerMask.value) != 0)
-            {
-                PlayerMovement playerMovement = other.GetComponent<PlayerMovement>();
-                if (playerMovement != null)
+                _animator = GetComponent<Animator>();
+                if (_animator == null)
                 {
-                    playerMovement.PerformJump(true);
-                }
-
-                IDamageable target = other.GetComponent<IDamageable>();
-                if (target != null)
-                {
-                    if (_audioSource != null && _audioSource.isPlaying)
-                    {
-                        _audioSource.Stop();
-                    }
-
-                    _animator.SetTrigger(_attackTrigger);
-
-                    if (_audioSource != null && _attackClip != null)
-                    {
-                        EnemyTakeDamageSoud();
-                    }
-
-                    target.TakeDamage(damage);
-                    Debug.Log("Атака врага по цели");
+                    Debug.LogError("Animator не найден на враге!");
                 }
             }
         }
-    }
 
-    public void EnemyDie()
-    {
-        if (_audioSource != null && _deathClip != null)
+        private void OnTriggerEnter(Collider other)
         {
-            _audioSource.clip = _deathClip;
-            _audioSource.loop = false;
-            _audioSource.Play();
-        }
-    }
+            if (!enemyHealth.IsDie)
+            {
+                if (((1 << other.gameObject.layer) & _targetLayerMask.value) != 0)
+                {
+                    PlayerMovement playerMovement = other.GetComponent<PlayerMovement>();
+                    if (playerMovement != null)
+                    {
+                        playerMovement.PerformJump(true);
+                    }
 
-    public void EnemyTakeDamageSoud()
-    {
-        if (_audioSource != null && _attackClip != null)
-        {
-            _audioSource.clip = _attackClip;
-            _audioSource.loop = false;
-            _audioSource.Play();
-            Invoke(nameof(StartPatrolSound), _attackClip.length); // Возвращаем патрульный звук после атаки
+                    IDamageable target = other.GetComponent<IDamageable>();
+                    if (target != null)
+                    {
+                        _animator.SetTrigger(_attackTrigger);
+                        OnEnemyAttack?.Invoke();
+                        target.TakeDamage(damage);
+                        Debug.Log("Атака врага по цели");
+                    }
+                }
+            }
         }
     }
 }
