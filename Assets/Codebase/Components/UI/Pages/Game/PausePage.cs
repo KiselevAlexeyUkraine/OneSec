@@ -37,7 +37,7 @@ namespace Codebase.Components.Ui.Pages.Game
             _settings.onClick.AddListener(() => { PageSwitcher.Open(PageName.GameSettings); });
 
             // Выход в главное меню (предполагается, что сцена 0 - главное меню).
-            _exit.onClick.AddListener(() => { SceneSwitcher.Instance.LoadScene(0); });
+            _exit.onClick.AddListener(() => { SceneSwitcher.Instance.LoadScene(1); });
         }
 
         /// <summary>

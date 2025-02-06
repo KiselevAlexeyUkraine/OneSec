@@ -478,6 +478,37 @@ Transform:
   - {fileID: 1173128366094265092}
   m_Father: {fileID: 4840584645004203680}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2375149733369286369
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2109143661481841034}
+  m_Layer: 6
+  m_Name: RaycastAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2109143661481841034
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375149733369286369}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1814905293394419859}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2410104577766165170
 GameObject:
   m_ObjectHideFlags: 0
@@ -6877,6 +6908,7 @@ Transform:
   - {fileID: 3050238555464940798}
   - {fileID: 4441458772573120467}
   - {fileID: 793691944746380032}
+  - {fileID: 2109143661481841034}
   m_Father: {fileID: 5336294581170793019}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &6448785412384677677
@@ -6952,9 +6984,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dfbfa2f9394b824596fed49e903a1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 4
   groundCheck: {fileID: 8039649610978132536}
   groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  raycastOrigin: {fileID: 2109143661481841034}
+  player: {fileID: 0}
+  detectionRange: 5
+  maxChaseDistance: 7
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  obstacleLayer:
     serializedVersion: 2
     m_Bits: 8
 --- !u!114 &878156373923623297

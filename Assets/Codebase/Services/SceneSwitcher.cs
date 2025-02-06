@@ -8,8 +8,16 @@ public class SceneSwitcher : MonoBehaviour
     public int CurrentScene { get => SceneManager.GetActiveScene().buildIndex; }
 
     private void Awake()
-    {
+    {    
         Instance = this;
+
+    }
+    private void Start()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 
     // Метод для перехода на сцену по индексу
