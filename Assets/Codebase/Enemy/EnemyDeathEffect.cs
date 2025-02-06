@@ -1,38 +1,41 @@
 using UnityEngine;
 using PrimeTween;
 
-public class EnemyDeathEffect : MonoBehaviour
+namespace Enemy
 {
-    private BoxCollider m_BoxCollider;
-    [SerializeField] private ParticleSystem m_ParticleSystem;
-
-    private void Awake()
+    public class EnemyDeathEffect : MonoBehaviour
     {
-        m_BoxCollider = GetComponent<BoxCollider>();
-        m_ParticleSystem.Stop();
-    }
+        private BoxCollider m_BoxCollider;
+        [SerializeField] private ParticleSystem m_ParticleSystem;
 
-    public void Die()
-    {
-        GetComponent<EnemyMovement>().enabled = false; // Отключаем движение
-        GetComponent<EnemyAttack>().EnemyDie();
-        m_BoxCollider.enabled = false;
+        private void Awake()
+        {
+            m_BoxCollider = GetComponent<BoxCollider>();
+            m_ParticleSystem.Stop();
+        }
 
-        Tween.LocalScale(transform, new Vector3(1f, 0.3f, 1f), 0.2f, Ease.InBounce)
-            .OnComplete(() =>
-                Tween.Position(transform, transform.position + Vector3.up * 0.5f, 0.2f, Ease.OutQuad)
+        public void Die()
+        {
+            GetComponent<EnemyMovement>().enabled = false; // Отключаем движение
+            m_BoxCollider.enabled = false;
+
+            Tween.LocalScale(transform, new Vector3(1f, 0.3f, 1f), 0.2f, Ease.InBounce)
                 .OnComplete(() =>
-                    Tween.Rotation(transform, Quaternion.Euler(0, 0, 180f), 0.3f, Ease.InOutQuad)
+                    Tween.Position(transform, transform.position + Vector3.up * 0.5f, 0.2f, Ease.OutQuad)
                     .OnComplete(() =>
-                        Tween.LocalScale(transform, Vector3.zero, 0.3f, Ease.InBack)
-                        .OnComplete(() => Destroy(gameObject))
+                        Tween.Rotation(transform, Quaternion.Euler(0, 0, 180f), 0.3f, Ease.InOutQuad)
+                        .OnComplete(() =>
+                            Tween.LocalScale(transform, Vector3.zero, 0.3f, Ease.InBack)
+                            .OnComplete(() => Destroy(gameObject))
+                        )
                     )
-                )
-            );
-    }
+                );
+        }
 
-    public void TakeDamage()
-    {
-        m_ParticleSystem.Play();
+        public void TakeDamage()
+        {
+            m_ParticleSystem.Play();
+        }
     }
 }
+

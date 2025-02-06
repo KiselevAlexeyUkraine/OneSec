@@ -17,6 +17,9 @@ namespace Enemy
         {
             _currentHealth = maxHealth;
             _deathEffect = GetComponent<EnemyDeathEffect>();
+
+            // Подписываем метод Die() на событие OnEnemyDied (без вызова!)
+            OnEnemyDied += _deathEffect.Die;
         }
 
         public void TakeDamage(int amount)
@@ -30,8 +33,9 @@ namespace Enemy
 
                 if (_currentHealth <= 0)
                 {
-                    _deathEffect.Die();
                     IsDie = true;
+
+                    // Вызываем событие, которое запустит подписанные методы (например, _deathEffect.Die)
                     OnEnemyDied?.Invoke();
                 }
             }

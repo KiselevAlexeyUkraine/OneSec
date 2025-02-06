@@ -3147,7 +3147,7 @@ MonoBehaviour:
   - {fileID: 7315394266493659333}
   - {fileID: 750331720810496824}
   - {fileID: 7091077839893620984}
-  - {fileID: 0}
+  - {fileID: 4672990526709378194}
 --- !u!1 &6439421853447471779
 GameObject:
   m_ObjectHideFlags: 0
@@ -5011,6 +5011,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e0b48b5ea2ea0946919245eccfa39ea, type: 3}
+--- !u!114 &4672990526709378194 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5145400867076756027, guid: 2e0b48b5ea2ea0946919245eccfa39ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 554486959311945385}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 459c9e35acabc2d4d8dfc1d70ae63c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &6346486072134146777 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6891300756504896624, guid: 2e0b48b5ea2ea0946919245eccfa39ea,
@@ -5249,6 +5261,11 @@ PrefabInstance:
       propertyPath: _pageSwitcher
       value: 
       objectReference: {fileID: 1217894252905918432}
+    - target: {fileID: 6768821433620406235, guid: d851fec31ea1e1b429056f1f628a1188,
+        type: 3}
+      propertyPath: _playerCombat
+      value: 
+      objectReference: {fileID: 8173431670054060704}
     - target: {fileID: 6768821433620406235, guid: d851fec31ea1e1b429056f1f628a1188,
         type: 3}
       propertyPath: _playerHealth
