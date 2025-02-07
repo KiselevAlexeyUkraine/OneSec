@@ -25,7 +25,7 @@ public class EnemyMovement : MonoBehaviour
         _patrol = GetComponent<EnemyPatrol>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         CheckGroundAndObstacles();
         _patrol.Patrol(); // Выполняем патрулирование
