@@ -8,7 +8,11 @@ namespace Codebase.Player
     public class PlayerMovement : MonoBehaviour
     {
         public Action OnMoving;
-        public Action OnJump;
+        public Action OnJumpStarted; // Событие для звука прыжка
+        public Action OnJump; // Событие фактического прыжка
+        public Action OnStartRunning;
+        public Action OnStopRunning;
+        public Action OnStartIdle;
 
         [SerializeField]
         private GroundChecker _groundChecker;
@@ -41,7 +45,7 @@ namespace Codebase.Player
         public bool IsDie { get; set; }
 
         public bool IsOnPlatform = false;
-        public bool IsJumping { get; set; }
+        public bool IsJumping { get; private set; }
 
         private void Awake()
         {
@@ -58,23 +62,30 @@ namespace Codebase.Player
             if (IsDie)
                 return;
 
-            // Игрок считается на земле, если либо GroundChecker, либо он находится на платформе
             IsGrounded = _groundChecker.IsGrounded || IsOnPlatform;
 
             _inputMovement = new Vector3(_desktopInput.Horizontal, 0f, 0f);
 
             if (_inputMovement != Vector3.zero)
             {
+                if (!IsMoving)
+                {
+                    OnStartRunning?.Invoke();
+                }
                 HandleStates();
             }
             else
             {
+                if (IsMoving)
+                {
+                    OnStopRunning?.Invoke();
+                }
                 HandleIdle();
             }
 
-            // Прыжок по нажатию клавиши
-            if (_desktopInput.Jump)
+            if (_desktopInput.Jump && IsGrounded) // Проверяем, на земле ли игрок
             {
+                OnJumpStarted?.Invoke(); // Событие для звука прыжка
                 PerformJump();
             }
 
@@ -96,6 +107,10 @@ namespace Codebase.Player
 
         private void HandleIdle()
         {
+            if (!IsIdle)
+            {
+                OnStartIdle?.Invoke();
+            }
             IsIdle = true;
             IsMoving = false;
         }
@@ -115,20 +130,11 @@ namespace Codebase.Player
             }
         }
 
-        /// <summary>
-        /// Выполняет прыжок.
-        /// Если enemyBounce == true, прыжок выполняется независимо от состояния IsGrounded,
-        /// что позволяет отскочить, даже если игрок стоит на враге.
-        /// </summary>
-        /// <param name="enemyBounce">Если true — прыжок при атаке врага.</param>
         public void PerformJump(bool enemyBounce = false)
         {
-            // Если прыжок инициирован врагом, игнорируем проверку на IsGrounded
             if (IsGrounded || enemyBounce)
             {
-                // Сбрасываем состояние платформы, чтобы гравитация не затирала начальную скорость прыжка
                 IsOnPlatform = false;
-                // Используем _jumpForce для расчёта начальной скорости прыжка
                 _velocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravity);
                 JustJumped = false;
                 IsJumping = true;
@@ -138,7 +144,6 @@ namespace Codebase.Player
 
         private void ApplyGravity()
         {
-            // Если игрок находится на платформе и не прыгает, не применять гравитацию
             if (IsOnPlatform && !IsJumping)
             {
                 _velocity.y = 0f;
@@ -159,23 +164,11 @@ namespace Codebase.Player
                 JustJumped = true;
             }
 
-            // Если игрок ударяется о потолок, отталкиваем его вниз
             if ((_characterController.collisionFlags & CollisionFlags.Above) != 0)
             {
                 _velocity.y = -1f;
                 _characterController.Move(new Vector3(0, -0.1f, 0));
             }
-        }
-
-        /// <summary>
-        /// Мгновенно перемещает игрока в заданном направлении (например, для телепортации).
-        /// </summary>
-        /// <param name="direction">Направление и расстояние перемещения.</param>
-        public void MoveForward(Vector3 direction)
-        {
-            _characterController.enabled = false;
-            transform.position += direction;
-            _characterController.enabled = true;
         }
     }
 }

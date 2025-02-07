@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1147606944138144190}
   - component: {fileID: 8989863511982530696}
   - component: {fileID: 4399880356024823833}
+  - component: {fileID: 9063931884056485939}
   m_Layer: 0
   m_Name: 'LevelCompleteDoor '
   m_TagString: Untagged
@@ -50,9 +51,8 @@ MonoBehaviour:
   _playerLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  _doorAnimator: {fileID: 0}
+  _doorAnimator: {fileID: 9063931884056485939}
   _openTrigger: Open
-  _levelManager: {fileID: 0}
   _doorAudio: {fileID: 8424277804329877350}
   _doorOpenClip: {fileID: 8300000, guid: 23bd134eb98addb45b43b2b88b3a31e9, type: 3}
 --- !u!65 &4399880356024823833
@@ -74,8 +74,29 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3.4817085, y: 3.7729206, z: 1}
+  m_Center: {x: -0.29236412, y: 0.03096962, z: -0}
+--- !u!95 &9063931884056485939
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3987822872691469375}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 691c2a82099ee6644aea6efc73fc49f3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8930986687505619606
 GameObject:
   m_ObjectHideFlags: 0

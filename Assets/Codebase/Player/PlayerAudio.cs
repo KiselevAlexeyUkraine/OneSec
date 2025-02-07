@@ -6,16 +6,19 @@ namespace Codebase.Player
     {
         [SerializeField] private AudioSource _audioSource;
 
+        [SerializeField] private AudioClip _idleClip;
+        [SerializeField] private AudioClip _runClip;
         [SerializeField] private AudioClip _attackClip;
         [SerializeField] private AudioClip _jumpClip;
-        [SerializeField] private AudioClip _landClip;
         [SerializeField] private AudioClip _damageClip;
         [SerializeField] private AudioClip _deathClip;
 
         private PlayerMovement _movement;
         private PlayerCombat _combat;
         private PlayerHealth _health;
-        private bool _wasGrounded;
+
+        private bool _wasJumping; // Следит за тем, когда игрок был в прыжке
+        private bool _isDead; // Флаг, указывающий, умер ли игрок
 
         private void Awake()
         {
@@ -23,7 +26,10 @@ namespace Codebase.Player
             _combat = GetComponent<PlayerCombat>();
             _health = GetComponent<PlayerHealth>();
 
-            _movement.OnJump += PlayJumpSound;
+            _movement.OnJumpStarted += PlayJumpSound;
+            _movement.OnStartRunning += PlayRunSound;
+            _movement.OnStopRunning += StopWalkingSounds;
+            _movement.OnStartIdle += PlayIdleSound;
             _combat.OnAttack += PlayAttackSound;
             _health.OnPlayerDied += PlayDeathSound;
             _health.OnHealthChanged += PlayDamageSound;
@@ -31,53 +37,134 @@ namespace Codebase.Player
 
         private void Update()
         {
-            HandleLandingSound();
+            if (_isDead) return; // Не выполняем проверку, если игрок мертв
+
+            HandleGroundedSounds();
+        }
+
+        /// <summary>
+        /// Проверяет, находится ли игрок в воздухе, и управляет звуками.
+        /// </summary>
+        private void HandleGroundedSounds()
+        {
+            if (_isDead) return; // Не обрабатываем звуки после смерти
+
+            if (_movement.IsJumping)
+            {
+                if (!_wasJumping)
+                {
+                    PlayLoopingSound(_jumpClip);
+                    StopWalkingSounds();
+                    _wasJumping = true;
+                }
+            }
+            else
+            {
+                if (_wasJumping)
+                {
+                    _wasJumping = false;
+                    StopJumpSound();
+
+                    if (_movement.IsIdle)
+                    {
+                        PlayIdleSound();
+                    }
+                }
+            }
         }
 
         private void PlayAttackSound()
         {
+            if (_isDead) return;
+
             if (_attackClip != null)
             {
-                _audioSource.clip = _attackClip;
-                _audioSource.Play();
+                _audioSource.PlayOneShot(_attackClip);
             }
         }
 
         private void PlayJumpSound()
         {
-            if (_movement.IsGrounded && _jumpClip != null)
+            if (_isDead) return; // Блокируем звук прыжка после смерти
+
+            PlayLoopingSound(_jumpClip);
+        }
+
+        private void PlayRunSound()
+        {
+            if (_isDead) return;
+
+            if (_movement.IsGrounded && !_movement.IsJumping)
             {
-                _audioSource.clip = _jumpClip;
-                _audioSource.Play();
+                PlayLoopingSound(_runClip);
             }
         }
 
-        private void HandleLandingSound()
+        private void PlayIdleSound()
         {
-            if (!_wasGrounded && _movement.IsGrounded && _landClip != null)
+            if (_isDead) return;
+
+            if (_movement.IsGrounded && !_movement.IsJumping)
             {
-                _audioSource.clip = _landClip;
-                _audioSource.Play();
+                PlayLoopingSound(_idleClip);
             }
-            _wasGrounded = _movement.IsGrounded;
         }
 
         private void PlayDamageSound()
         {
+            if (_isDead) return;
+
             if (_damageClip != null)
             {
-                _audioSource.clip = _damageClip;
-                _audioSource.Play();
+                _audioSource.PlayOneShot(_damageClip);
             }
         }
 
         private void PlayDeathSound()
         {
+            _isDead = true; // Устанавливаем флаг смерти
+
+            StopAllSounds(); // Останавливаем все звуки перед воспроизведением звука смерти
+
             if (_deathClip != null)
             {
-                _audioSource.clip = _deathClip;
-                _audioSource.Play();
+                _audioSource.PlayOneShot(_deathClip);
             }
+        }
+
+        private void PlayLoopingSound(AudioClip clip)
+        {
+            if (_isDead) return;
+
+            if (_audioSource.clip == clip && _audioSource.isPlaying) return;
+
+            _audioSource.clip = clip;
+            _audioSource.loop = true;
+            _audioSource.Play();
+        }
+
+        private void StopWalkingSounds()
+        {
+            if (_audioSource.isPlaying && (_audioSource.clip == _runClip || _audioSource.clip == _idleClip))
+            {
+                _audioSource.Stop();
+                _audioSource.clip = null;
+            }
+        }
+
+        private void StopJumpSound()
+        {
+            if (_audioSource.isPlaying && _audioSource.clip == _jumpClip)
+            {
+                _audioSource.Stop();
+                _audioSource.clip = null;
+            }
+        }
+
+        private void StopAllSounds()
+        {
+            _audioSource.Stop();
+            _audioSource.clip = null;
         }
     }
 }
