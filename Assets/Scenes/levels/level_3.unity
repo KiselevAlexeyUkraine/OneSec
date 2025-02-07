@@ -328,6 +328,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1543904452}
     m_Modifications:
+    - target: {fileID: 1073578682523201809, guid: 9bb8e7fdfa3b56e41b7d3259041a436e,
+        type: 3}
+      propertyPath: _attackClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2f3635b3e50b14f8bb539b325e223cc9, type: 3}
+    - target: {fileID: 1073578682523201809, guid: 9bb8e7fdfa3b56e41b7d3259041a436e,
+        type: 3}
+      propertyPath: _damageClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0ce75ad418ace4b0b997c9f567266101, type: 3}
+    - target: {fileID: 1073578682523201809, guid: 9bb8e7fdfa3b56e41b7d3259041a436e,
+        type: 3}
+      propertyPath: _patrolClip
+      value: 
+      objectReference: {fileID: 8300000, guid: aa50f1934c1f74292935508477297ac9, type: 3}
     - target: {fileID: 5336294581170793019, guid: 9bb8e7fdfa3b56e41b7d3259041a436e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4065,6 +4080,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4982194183710911899, guid: 4dc271a7d3754084e909dc18544433d4,
+        type: 3}
+      propertyPath: _runClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ba7dbe4b5144f467d95182533bd5d9e3, type: 3}
+    - target: {fileID: 4982194183710911899, guid: 4dc271a7d3754084e909dc18544433d4,
+        type: 3}
+      propertyPath: _jumpClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 005a2b653e0784f8f95e0f0f012ae81c, type: 3}
+    - target: {fileID: 4982194183710911899, guid: 4dc271a7d3754084e909dc18544433d4,
+        type: 3}
+      propertyPath: _damageClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2a1f3f1df7bce4f048897713d0114038, type: 3}
     - target: {fileID: 4988277837389770875, guid: 4dc271a7d3754084e909dc18544433d4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -9205,6 +9235,16 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 5173071803128159667, guid: 363e9d04aed6ae944be8b27101ba3175,
+        type: 3}
+      propertyPath: _doorOpenClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4488c529135c24a79958a12a9389b45d, type: 3}
+    - target: {fileID: 6043436320815687834, guid: 363e9d04aed6ae944be8b27101ba3175,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: afdef0033c5ed4d4288c18718f15785a, type: 3}
     - target: {fileID: 6664788373468014318, guid: 363e9d04aed6ae944be8b27101ba3175,
         type: 3}
       propertyPath: m_Size.x
@@ -9557,6 +9597,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1339191440}
     m_Modifications:
+    - target: {fileID: 669527673277386, guid: 4368fca9d8b4c934b9e4ebfc170256cb, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a12fecc1bc38c4a369fde7e20855d004, type: 3}
     - target: {fileID: 1901663594729011309, guid: 4368fca9d8b4c934b9e4ebfc170256cb,
         type: 3}
       propertyPath: m_Name
