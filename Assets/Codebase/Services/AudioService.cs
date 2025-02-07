@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -7,13 +6,13 @@ namespace Codebase.Services
     public class AudioService : MonoBehaviour
     {
         [SerializeField]
-        private AudioMixer _mixer;
-        [SerializeField]
-        private float _defaultVolumeScene = 0.5f;
+        private AudioMixer _mixer; // Основной аудиомикшер
 
-        private const string MasterVolumePrefKey = "MasterVolume";
-        private const string SoundsVolumePrefKey = "SoundsVolume";
-        private const string MusicVolumePrefKey = "MusicVolume";
+        private const string MasterVolumeKey = "MasterVolume";
+        private const string SoundsVolumeKey = "SoundsVolume";
+        private const string MusicVolumeKey = "MusicVolume";
+
+        private const float DefaultVolume = 0.5f; // Значение по умолчанию
 
         public float SavedMasterVolume { get; private set; }
         public float SavedSoundsVolume { get; private set; }
@@ -21,42 +20,56 @@ namespace Codebase.Services
 
         private void Awake()
         {
-            SavedMasterVolume = PlayerPrefs.GetFloat(MasterVolumePrefKey, _defaultVolumeScene);
-            SavedSoundsVolume = PlayerPrefs.GetFloat(SoundsVolumePrefKey, _defaultVolumeScene);
-            SavedMusicVolume = PlayerPrefs.GetFloat(MusicVolumePrefKey, _defaultVolumeScene);
+            LoadAudioSettings();
         }
 
         private void Start()
         {
-            SetMasterVolume(SavedMasterVolume);
-            SetSoundsVolume(SavedSoundsVolume);
-            SetMusicVolume(SavedMusicVolume);
+            ApplyVolume();
         }
 
         public void SetMasterVolume(float value)
         {
-            SetVolume(value, MasterVolumePrefKey);
+            SavedMasterVolume = Mathf.Clamp(value, 0.0001f, 1f);
+            SetVolumeToMixer("MasterVolume", SavedMasterVolume);
+            PlayerPrefs.SetFloat(MasterVolumeKey, SavedMasterVolume);
+            PlayerPrefs.Save();
         }
 
         public void SetSoundsVolume(float value)
         {
-            SetVolume(value, SoundsVolumePrefKey);
+            SavedSoundsVolume = Mathf.Clamp(value, 0.0001f, 1f);
+            SetVolumeToMixer("SoundsVolume", SavedSoundsVolume);
+            PlayerPrefs.SetFloat(SoundsVolumeKey, SavedSoundsVolume);
+            PlayerPrefs.Save();
         }
 
         public void SetMusicVolume(float value)
         {
-            SetVolume(value, MusicVolumePrefKey);
+            SavedMusicVolume = Mathf.Clamp(value, 0.0001f, 1f);
+            SetVolumeToMixer("MusicVolume", SavedMusicVolume);
+            PlayerPrefs.SetFloat(MusicVolumeKey, SavedMusicVolume);
+            PlayerPrefs.Save();
         }
 
-        private void SetVolume(float value, string name)
+        private void LoadAudioSettings()
         {
-            value = Mathf.Clamp(value, 0.0001f, 1f);
-            var volume = Mathf.Log10(value) * 20f;
+            SavedMasterVolume = PlayerPrefs.GetFloat(MasterVolumeKey, DefaultVolume);
+            SavedSoundsVolume = PlayerPrefs.GetFloat(SoundsVolumeKey, DefaultVolume);
+            SavedMusicVolume = PlayerPrefs.GetFloat(MusicVolumeKey, DefaultVolume);
+        }
 
-            _mixer.SetFloat(name, volume);
+        private void ApplyVolume()
+        {
+            SetVolumeToMixer("MasterVolume", SavedMasterVolume);
+            SetVolumeToMixer("SoundsVolume", SavedSoundsVolume);
+            SetVolumeToMixer("MusicVolume", SavedMusicVolume);
+        }
 
-            PlayerPrefs.SetFloat(name, value);
-            PlayerPrefs.Save();
+        private void SetVolumeToMixer(string parameter, float value)
+        {
+            float volume = Mathf.Log10(value) * 20f;
+            _mixer.SetFloat(parameter, volume);
         }
     }
 }

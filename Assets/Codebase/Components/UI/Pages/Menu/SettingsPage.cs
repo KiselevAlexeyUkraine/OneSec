@@ -26,18 +26,17 @@ namespace Codebase.Components.Ui.Pages.Menu
 
         private void Awake()
         {
-            
-            if (_audioService == null)
-            {
-                Debug.Log("Аудио сорсе равен нулю");
-            }
-
-
             _back.onClick.AddListener(() => { PageSwitcher.Open(PageName.Menu); });
-            _masterVolume.onValueChanged.AddListener(value => _audioService.SetMasterVolume(value));
-            _soundsVolume.onValueChanged.AddListener(value => _audioService.SetSoundsVolume(value));
-            _musicVolume.onValueChanged.AddListener(value => _audioService.SetMusicVolume(value));
 
+            _masterVolume.onValueChanged.AddListener(_audioService.SetMasterVolume);
+            _soundsVolume.onValueChanged.AddListener(_audioService.SetSoundsVolume);
+            _musicVolume.onValueChanged.AddListener(_audioService.SetMusicVolume);
+
+            LoadSettings();
+        }
+
+        private void LoadSettings()
+        {
             _masterVolume.value = _audioService.SavedMasterVolume;
             _soundsVolume.value = _audioService.SavedSoundsVolume;
             _musicVolume.value = _audioService.SavedMusicVolume;

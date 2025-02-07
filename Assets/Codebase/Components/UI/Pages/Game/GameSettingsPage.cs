@@ -27,10 +27,16 @@ namespace Codebase.Components.Ui.Pages.Game
         private void Awake()
         {
             _back.onClick.AddListener(() => { PageSwitcher.Open(PageName.Pause).Forget(); });
-            _masterVolume.onValueChanged.AddListener(value => _audioService.SetMasterVolume(value));
-            _soundsVolume.onValueChanged.AddListener(value => _audioService.SetSoundsVolume(value));
-            _musicVolume.onValueChanged.AddListener(value => _audioService.SetMusicVolume(value));
 
+            _masterVolume.onValueChanged.AddListener(_audioService.SetMasterVolume);
+            _soundsVolume.onValueChanged.AddListener(_audioService.SetSoundsVolume);
+            _musicVolume.onValueChanged.AddListener(_audioService.SetMusicVolume);
+
+            LoadSettings();
+        }
+
+        private void LoadSettings()
+        {
             _masterVolume.value = _audioService.SavedMasterVolume;
             _soundsVolume.value = _audioService.SavedSoundsVolume;
             _musicVolume.value = _audioService.SavedMusicVolume;
