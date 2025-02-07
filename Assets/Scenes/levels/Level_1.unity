@@ -4159,6 +4159,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4982194183710911899, guid: 4dc271a7d3754084e909dc18544433d4,
+        type: 3}
+      propertyPath: _runClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ba7dbe4b5144f467d95182533bd5d9e3, type: 3}
+    - target: {fileID: 4982194183710911899, guid: 4dc271a7d3754084e909dc18544433d4,
+        type: 3}
+      propertyPath: _idleClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4982194183710911899, guid: 4dc271a7d3754084e909dc18544433d4,
+        type: 3}
+      propertyPath: _jumpClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 005a2b653e0784f8f95e0f0f012ae81c, type: 3}
     - target: {fileID: 4988277837389770875, guid: 4dc271a7d3754084e909dc18544433d4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -9882,6 +9897,16 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 5173071803128159667, guid: 363e9d04aed6ae944be8b27101ba3175,
+        type: 3}
+      propertyPath: _doorOpenClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4488c529135c24a79958a12a9389b45d, type: 3}
+    - target: {fileID: 6043436320815687834, guid: 363e9d04aed6ae944be8b27101ba3175,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: afdef0033c5ed4d4288c18718f15785a, type: 3}
     - target: {fileID: 8989863511982530696, guid: 363e9d04aed6ae944be8b27101ba3175,
         type: 3}
       propertyPath: _doorAnimator
@@ -10031,6 +10056,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1339191440}
     m_Modifications:
+    - target: {fileID: 669527673277386, guid: 4368fca9d8b4c934b9e4ebfc170256cb, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 669527673277386, guid: 4368fca9d8b4c934b9e4ebfc170256cb, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0aee981c6060347159367ca294ba7a29, type: 3}
     - target: {fileID: 1901663594729011309, guid: 4368fca9d8b4c934b9e4ebfc170256cb,
         type: 3}
       propertyPath: m_Name
