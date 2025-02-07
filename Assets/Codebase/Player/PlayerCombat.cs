@@ -7,18 +7,25 @@ namespace Codebase.Player
 {
     public class PlayerCombat : MonoBehaviour
     {
-        public event Action OnAttack; // Добавляем событие атаки
+        public event Action OnAttack;
 
-        [SerializeField] private LayerMask _enemyLayer; // Слой врагов
-        [SerializeField] private float _attackRange = 2f; // Дистанция удара
-        [SerializeField] private int _damage = 1; // Наносимый урон
-        [SerializeField] private Transform _attackPoint; // Точка атаки (например, центр персонажа)
+        [SerializeField] private LayerMask _enemyLayer;
+        [SerializeField] private float _attackRange = 2f;
+        [SerializeField] private int _damage = 1;
+        [SerializeField] private Transform _attackPoint;
         [SerializeField] private Animator _playerAnimation;
         [SerializeField] private DesktopInput _desktopInput;
+        [SerializeField] private float _attackCooldownTime = 1f; // Время задержки между атаками
+
+        private static readonly int AttackTrigger = Animator.StringToHash("Shoot");
+        private bool _isAttacking;
+        private float _attackCooldown;
 
         private void Update()
         {
-            if (_desktopInput.Fire) // ЛКМ
+            _attackCooldown -= Time.deltaTime;
+
+            if (_desktopInput.Fire && !_isAttacking && _attackCooldown <= 0f)
             {
                 Attack();
             }
@@ -26,9 +33,16 @@ namespace Codebase.Player
 
         private void Attack()
         {
-            Collider[] hitEnemies = Physics.OverlapSphere(_attackPoint.position, _attackRange, _enemyLayer);
+            _isAttacking = true;
+            _attackCooldown = _attackCooldownTime; // Устанавливаем кулдаун атаки
+            PerformAttack();
+        }
 
-            _playerAnimation.SetTrigger("Shoot");
+        private void PerformAttack()
+        {
+            _playerAnimation.SetTrigger(AttackTrigger);
+
+            Collider[] hitEnemies = Physics.OverlapSphere(_attackPoint.position, _attackRange, _enemyLayer);
 
             foreach (Collider enemy in hitEnemies)
             {
@@ -38,7 +52,8 @@ namespace Codebase.Player
                 }
             }
 
-            OnAttack?.Invoke(); // Вызываем событие атаки
+            OnAttack?.Invoke();
+            _isAttacking = false;
         }
 
         private void OnDrawGizmosSelected()

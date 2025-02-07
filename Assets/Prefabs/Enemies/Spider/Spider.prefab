@@ -795,7 +795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dfbfa2f9394b824596fed49e903a1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 2
   groundCheck: {fileID: 4107990637067867430}
   groundLayer:
     serializedVersion: 2
@@ -883,7 +883,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 788847ccef6b2804989325798f75a607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   detectionRange: 5
   maxChaseDistance: 7
   playerLayer:
@@ -892,7 +891,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  verticalThreshold: 0.5
+  verticalThreshold: 1
 --- !u!1 &2732845039045336588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,7 +1426,7 @@ Transform:
   m_GameObject: {fileID: 5343539436482438716}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0, z: 0}
+  m_LocalPosition: {x: -1, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
