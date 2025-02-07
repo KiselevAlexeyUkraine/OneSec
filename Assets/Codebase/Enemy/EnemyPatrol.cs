@@ -2,19 +2,30 @@ using UnityEngine;
 
 public class EnemyPatrol : MonoBehaviour
 {
-    [SerializeField] private Transform player;
     [SerializeField] private float detectionRange = 5f;
     [SerializeField] private float maxChaseDistance = 10f;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private LayerMask groundLayer; // Слой препятствий
     [SerializeField] private float verticalThreshold = 1.5f; // Максимальная разница по высоте для преследования
 
+    private Transform player;
     private EnemyMovement _movement;
     private bool _isChasing;
 
     private void Awake()
     {
         _movement = GetComponent<EnemyMovement>();
+
+        // Ищем игрока по тегу "Player"
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
+        {
+            player = playerObject.transform;
+        }
+        else
+        {
+            Debug.LogWarning("Игрок с тегом 'Player' не найден! EnemyPatrol не сможет отслеживать игрока.");
+        }
     }
 
     private void Update()

@@ -37,13 +37,13 @@ namespace Codebase.Player
 
         private void Update()
         {
-            if (_isDead) return; // Не выполняем проверку, если игрок мертв
+            if (_isDead) return; // Если игрок мертв - не выполнять логику
 
             HandleGroundedSounds();
         }
 
         /// <summary>
-        /// Проверяет, находится ли игрок в воздухе, и управляет звуками.
+        /// Проверяет, если игрок приземлился, запускает нужный звук.
         /// </summary>
         private void HandleGroundedSounds()
         {
@@ -60,12 +60,16 @@ namespace Codebase.Player
             }
             else
             {
-                if (_wasJumping)
+                if (_wasJumping) // Если игрок только что приземлился
                 {
                     _wasJumping = false;
                     StopJumpSound();
 
-                    if (_movement.IsIdle)
+                    if (_movement.IsMoving) // Если после приземления игрок двигается - включаем бег
+                    {
+                        PlayRunSound();
+                    }
+                    else // Если стоит - включаем Idle
                     {
                         PlayIdleSound();
                     }
@@ -85,7 +89,7 @@ namespace Codebase.Player
 
         private void PlayJumpSound()
         {
-            if (_isDead) return; // Блокируем звук прыжка после смерти
+            if (_isDead) return;
 
             PlayLoopingSound(_jumpClip);
         }
