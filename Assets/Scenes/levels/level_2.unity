@@ -6129,11 +6129,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1543904452}
     m_Modifications:
-    - target: {fileID: 3013822285683269706, guid: c57977c72c5bddb418962ae46a1621da,
-        type: 3}
-      propertyPath: speed
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3149268104504391565, guid: c57977c72c5bddb418962ae46a1621da,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6183,21 +6178,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3276074928614339202, guid: c57977c72c5bddb418962ae46a1621da,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3276074928614339202, guid: c57977c72c5bddb418962ae46a1621da,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3904016338336241116, guid: c57977c72c5bddb418962ae46a1621da,
-        type: 3}
-      propertyPath: verticalThreshold
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8220172904150790341, guid: c57977c72c5bddb418962ae46a1621da,
         type: 3}
@@ -6551,35 +6531,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 191318069352048633, guid: fe548a057d976ee449e6411885292212,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 191318069352048633, guid: fe548a057d976ee449e6411885292212,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1812851682685768810, guid: fe548a057d976ee449e6411885292212,
-        type: 3}
-      propertyPath: speed
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1823281160462124993, guid: fe548a057d976ee449e6411885292212,
         type: 3}
       propertyPath: m_Name
       value: SpiderSmall
-      objectReference: {fileID: 0}
-    - target: {fileID: 2070277419478460487, guid: fe548a057d976ee449e6411885292212,
-        type: 3}
-      propertyPath: verticalThreshold
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2311648923253864751, guid: fe548a057d976ee449e6411885292212,
-        type: 3}
-      propertyPath: maxHealth
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6265158888280755933, guid: fe548a057d976ee449e6411885292212,
         type: 3}
@@ -6692,11 +6647,6 @@ PrefabInstance:
     - target: {fileID: 345666762964822150, guid: 944fa834665555749bc409eaac7ff1b9,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1510294982638934986, guid: 944fa834665555749bc409eaac7ff1b9,
-        type: 3}
-      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1516874277435254804, guid: 944fa834665555749bc409eaac7ff1b9,
