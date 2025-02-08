@@ -6974,7 +6974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6f0c79c7b79814ea5375bddb3f9b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 4
+  maxHealth: 1
 --- !u!114 &4082596619434077528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6987,7 +6987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dfbfa2f9394b824596fed49e903a1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 2
   groundCheck: {fileID: 8039649610978132536}
   groundLayer:
     serializedVersion: 2
@@ -7020,7 +7020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a029543e90a0485499d8cf8201be03d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
+  damage: 1
   _targetLayerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -7075,7 +7075,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 788847ccef6b2804989325798f75a607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   detectionRange: 5
   maxChaseDistance: 7
   playerLayer:
