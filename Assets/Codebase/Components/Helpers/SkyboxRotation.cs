@@ -9,7 +9,7 @@ namespace Codebase.Components.Helpers
         public Gradient gradient;
 
         private float _angle;
-
+        
         private static readonly int Tint = Shader.PropertyToID("_Tint");
         private static readonly int Rotation = Shader.PropertyToID("_Rotation");
 
@@ -21,7 +21,7 @@ namespace Codebase.Components.Helpers
             {
                 _angle = 0f;
             }
-
+            
             skybox.SetColor(Tint, gradient.Evaluate(_angle / 360f));
             skybox.SetFloat(Rotation, _angle);
         }
