@@ -1063,7 +1063,7 @@ MonoBehaviour:
   _attackPoint: {fileID: 4166784530806601699}
   _playerAnimation: {fileID: 8693771409878507819}
   _desktopInput: {fileID: 8848999252513109408}
-  _attackCooldownTime: 0.8
+  _attackCooldownTime: 0.9
 --- !u!95 &8693771409878507819
 Animator:
   serializedVersion: 5
