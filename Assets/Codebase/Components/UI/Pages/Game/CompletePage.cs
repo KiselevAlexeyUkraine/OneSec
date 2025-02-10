@@ -1,35 +1,54 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using Zenject;
+using Codebase.Services;
 
 namespace Codebase.Components.Ui.Pages.Game
-
 {
     /// <summary>
     /// Класс отвечает за управление страницей завершения уровня, предоставляя кнопки для перехода к следующему уровню, перезапуска или выхода в меню.
     /// </summary>
     public class CompletePage : BasePage
     {
-        [SerializeField]
-        private Button _nextLevel; // Кнопка для перехода к следующему уровню.
-        [SerializeField]
-        private Button _restart; // Кнопка для перезапуска текущего уровня.
-        [SerializeField]
-        private Button _exit; // Кнопка для выхода в главное меню.
+        [SerializeField] private Button _nextLevel; // Кнопка для перехода к следующему уровню.
+        [SerializeField] private Button _restart; // Кнопка для перезапуска текущего уровня.
+        [SerializeField] private Button _exit; // Кнопка для выхода в главное меню.
+
+        private AudioService _audioService;
+
+        [Inject]
+        private void Construct(AudioService audioService)
+        {
+            _audioService = audioService;
+        }
 
         /// <summary>
         /// Подписываемся на события кнопок при инициализации объекта.
         /// </summary>
         private void Awake()
         {
-            // Переход к следующей сцене (уровню).
-            _nextLevel.onClick.AddListener(() => { SceneSwitcher.Instance.LoadNextScene(); });
+            _nextLevel.onClick.AddListener(() =>
+            {
+                _audioService.PlayClickSound();
+                SceneSwitcher.Instance.LoadNextScene();
+            });
 
-            // Перезапуск текущей сцены.
-            _restart.onClick.AddListener(() => { SceneSwitcher.Instance.LoadScene(SceneSwitcher.Instance.CurrentScene); });
+            _restart.onClick.AddListener(() =>
+            {
+                _audioService.PlayClickSound();
+                SceneSwitcher.Instance.LoadScene(SceneSwitcher.Instance.CurrentScene);
+            });
 
-            // Переход в главное меню.
-            _exit.onClick.AddListener(() => { SceneSwitcher.Instance.LoadScene(1); });
+            _exit.onClick.AddListener(() =>
+            {
+                _audioService.PlayClickSound();
+                SceneSwitcher.Instance.LoadScene(1);
+            });
 
+            AddHoverSound(_nextLevel);
+            AddHoverSound(_restart);
+            AddHoverSound(_exit);
         }
 
         /// <summary>
@@ -37,9 +56,20 @@ namespace Codebase.Components.Ui.Pages.Game
         /// </summary>
         private void OnDestroy()
         {
-            _nextLevel.onClick.RemoveAllListeners(); // Убираем все подписки с кнопки перехода на следующий уровень.
-            _restart.onClick.RemoveAllListeners(); // Убираем все подписки с кнопки перезапуска.
-            _exit.onClick.RemoveAllListeners(); // Убираем все подписки с кнопки выхода в меню.
+            _nextLevel.onClick.RemoveAllListeners();
+            _restart.onClick.RemoveAllListeners();
+            _exit.onClick.RemoveAllListeners();
+        }
+
+        private void AddHoverSound(Button button)
+        {
+            EventTrigger trigger = button.gameObject.GetComponent<EventTrigger>() ?? button.gameObject.AddComponent<EventTrigger>();
+            EventTrigger.Entry entry = new EventTrigger.Entry
+            {
+                eventID = EventTriggerType.PointerEnter
+            };
+            entry.callback.AddListener((_) => _audioService.PlayHoverSound());
+            trigger.triggers.Add(entry);
         }
     }
 }

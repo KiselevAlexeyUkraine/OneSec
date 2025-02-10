@@ -6524,21 +6524,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spider
       objectReference: {fileID: 0}
-    - target: {fileID: 2079751089431983644, guid: c57977c72c5bddb418962ae46a1621da,
-        type: 3}
-      propertyPath: stopChaseThreshold
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2238162427418551857, guid: c57977c72c5bddb418962ae46a1621da,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2238162427418551857, guid: c57977c72c5bddb418962ae46a1621da,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 0.2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -1,18 +1,20 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using Zenject;
 
 namespace Codebase.Services
 {
     public class AudioService : MonoBehaviour
     {
-        [SerializeField]
-        private AudioMixer _mixer; // Основной аудиомикшер
+        [SerializeField] private AudioMixer _mixer;
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioClip _hoverSound;
+        [SerializeField] private AudioClip _clickSound;
 
         private const string MasterVolumeKey = "MasterVolume";
         private const string SoundsVolumeKey = "SoundsVolume";
         private const string MusicVolumeKey = "MusicVolume";
-
-        private const float DefaultVolume = 0.5f; // Значение по умолчанию
+        private const float DefaultVolume = 0.5f;
 
         public float SavedMasterVolume { get; private set; }
         public float SavedSoundsVolume { get; private set; }
@@ -21,11 +23,23 @@ namespace Codebase.Services
         private void Awake()
         {
             LoadAudioSettings();
+            ApplyVolume();
         }
 
-        private void Start()
+        public void PlayHoverSound()
         {
-            ApplyVolume();
+            if (_audioSource != null && _hoverSound != null)
+            {
+                _audioSource.PlayOneShot(_hoverSound);
+            }
+        }
+
+        public void PlayClickSound()
+        {
+            if (_audioSource != null && _clickSound != null)
+            {
+                _audioSource.PlayOneShot(_clickSound);
+            }
         }
 
         public void SetMasterVolume(float value)
