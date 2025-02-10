@@ -47,7 +47,7 @@ namespace Enemy
         private void OnTriggerEnter(Collider other)
         {
             if (_playerHealth == null || _playerHealth.Health <= 0 || _levelManager == null || _levelManager.IsLevelCompleted) return;
-            if (_enemyHealth.IsDie || _isAttacking) return;
+            if (_enemyHealth.IsDead || _isAttacking) return;
 
             if (((1 << other.gameObject.layer) & _targetLayerMask.value) != 0)
             {

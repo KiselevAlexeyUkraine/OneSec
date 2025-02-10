@@ -7007,7 +7007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 2
-  _animator: {fileID: 0}
+  _animator: {fileID: 4509616709567581048}
 --- !u!114 &4082596619434077528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7041,7 +7041,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _particleSystem: {fileID: 5958428078577986830}
-  _animator: {fileID: 4509616709567581048}
 --- !u!114 &4502233323942846752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7121,7 +7120,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   verticalThreshold: 1
-  stopChaseThreshold: 0.5
+  stopChaseThreshold: 1
 --- !u!1 &9153062766013359757
 GameObject:
   m_ObjectHideFlags: 0

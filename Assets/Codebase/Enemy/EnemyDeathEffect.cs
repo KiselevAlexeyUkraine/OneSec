@@ -6,7 +6,6 @@ namespace Enemy
     {
         private BoxCollider _boxCollider;
         [SerializeField] private ParticleSystem _particleSystem;
-        [SerializeField] private Animator _animator;
 
         private void Awake()
         {

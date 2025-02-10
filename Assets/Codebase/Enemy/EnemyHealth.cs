@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using PrimeTween; // Подключаем PrimeTween
 
 namespace Enemy
 {
@@ -13,7 +14,9 @@ namespace Enemy
 
         private int _currentHealth;
         private EnemyAttack _enemyAttack;
-        public bool IsDie { get; private set; }
+        private EnemyMovement _enemyMovement;
+        private EnemyPatrol _enemyPatrol;
+        public bool IsDead { get; private set; }
 
         private static readonly int DeathTrigger = Animator.StringToHash("Death");
 
@@ -21,14 +24,21 @@ namespace Enemy
         {
             _currentHealth = maxHealth;
             _enemyAttack = GetComponent<EnemyAttack>();
+            _enemyMovement = GetComponent<EnemyMovement>();
+            _enemyPatrol = GetComponent<EnemyPatrol>();
+
+            if (_animator == null)
+            {
+                Debug.LogError("Animator не найден на враге!", this);
+            }
         }
 
         public void TakeDamage(int amount)
         {
-            if (IsDie) return; // Если враг уже мертв, урон не проходит
+            if (IsDead) return; // Если враг уже мертв, урон не проходит
 
             _currentHealth -= amount;
-            Debug.Log("Наносим урон врагу");
+            Debug.Log($"Нанесен урон врагу: {_currentHealth}/{maxHealth}");
 
             OnEnemyDamaged?.Invoke();
 
@@ -40,19 +50,25 @@ namespace Enemy
 
         private void Die()
         {
-            if (IsDie) return;
+            if (IsDead) return;
 
-            IsDie = true;
-            _animator.SetTrigger(DeathTrigger); // Запуск анимации смерти
+            IsDead = true;
+
+            if (_animator != null)
+            {
+                _animator.SetTrigger(DeathTrigger); // Запуск анимации смерти
+            }
 
             // Отключаем атаку и движение
-            if (_enemyAttack != null)
-            {
-                _enemyAttack.enabled = false;
-            }
+            if (_enemyAttack != null) _enemyAttack.enabled = false;
+            if (_enemyMovement != null) _enemyMovement.enabled = false;
+            if (_enemyPatrol != null) _enemyPatrol.enabled = false;
 
             // Вызываем событие смерти
             OnEnemyDied?.Invoke();
+
+            // Переворачиваем врага вверх дном
+            Tween.Rotation(transform, Quaternion.Euler(0, 0, 180f), 0.5f, Ease.OutBounce);
 
             // Очищаем события, чтобы избежать утечек памяти
             OnEnemyDied = null;
