@@ -9,18 +9,18 @@ namespace Enemy
         public event Action OnEnemyAttack;
 
         [Header("Attack Settings")]
-        [SerializeField] private int damage = 1; // Урон
-        [SerializeField] private LayerMask _targetLayerMask; // Слой цели (например, игрок)
-        [SerializeField] private Animator _animator; // Аниматор врага
-        [SerializeField] private Transform attackPoint; // Точка атаки
-        [SerializeField] private float attackRadius = 1.5f; // Радиус атаки
-        [SerializeField] private EnemyMovement _movement; // Компонент движения
+        [SerializeField] private int damage = 1;
+        [SerializeField] private LayerMask _targetLayerMask;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private Transform attackPoint;
+        [SerializeField] private float attackRadius = 1.5f;
+        [SerializeField] private EnemyMovement _movement;
 
         private EnemyHealth _enemyHealth;
-        private PlayerHealth _playerHealth; // Ссылка на здоровье игрока
-        private LevelManager _levelManager; // Ссылка на менеджер уровня
-        private readonly int _attackTrigger = Animator.StringToHash("Attack");
-        private bool _isAttacking = false; // Флаг атаки
+        private PlayerHealth _playerHealth;
+        private LevelManager _levelManager;
+        private bool _isAttacking = false;
+        private static readonly int AttackTrigger = Animator.StringToHash("Attack");
 
         private void Awake()
         {
@@ -47,8 +47,9 @@ namespace Enemy
         private void OnTriggerEnter(Collider other)
         {
             if (_playerHealth == null || _playerHealth.Health <= 0 || _levelManager == null || _levelManager.IsLevelCompleted) return;
+            if (_enemyHealth.IsDie || _isAttacking) return;
 
-            if (!_enemyHealth.IsDie && !_isAttacking && ((1 << other.gameObject.layer) & _targetLayerMask.value) != 0)
+            if (((1 << other.gameObject.layer) & _targetLayerMask.value) != 0)
             {
                 StartAttack();
             }
@@ -57,11 +58,11 @@ namespace Enemy
         private void StartAttack()
         {
             _isAttacking = true;
-            _movement.SetMovementEnabled(false); // Останавливаем движение
-            _animator.SetTrigger(_attackTrigger);
+            //_movement.SetMovementEnabled(false);
+            _animator.SetBool(AttackTrigger, true);
         }
 
-        // Метод, вызываемый из анимации удара (Animation Event)
+        // Вызывается из анимации атаки
         public void PerformSpiderAttack()
         {
             if (_playerHealth == null || _playerHealth.Health <= 0 || _levelManager == null || _levelManager.IsLevelCompleted) return;
@@ -69,29 +70,28 @@ namespace Enemy
             Collider[] hitColliders = Physics.OverlapSphere(attackPoint.position, attackRadius, _targetLayerMask);
             foreach (var hitCollider in hitColliders)
             {
-                IDamageable target = hitCollider.GetComponent<IDamageable>();
-                if (target != null)
+                if (hitCollider.TryGetComponent(out IDamageable target))
                 {
                     OnEnemyAttack?.Invoke();
                     target.TakeDamage(damage);
                     Debug.Log("Атака врага по цели");
                 }
-                PlayerMovement playerMovement = hitCollider.GetComponent<PlayerMovement>();
-                if (playerMovement != null)
+
+                if (hitCollider.TryGetComponent(out PlayerMovement playerMovement))
                 {
                     playerMovement.PerformJump(true);
                 }
             }
         }
 
-        // Метод вызывается в конце анимации атаки (Animation Event)
+        // Вызывается в конце анимации атаки
         public void EndAttack()
         {
             _isAttacking = false;
-            _movement.SetMovementEnabled(true); // Разрешаем движение врага
+            //_movement.SetMovementEnabled(true);
+            _animator.SetBool(AttackTrigger, false);
         }
 
-        // Отображение радиуса атаки в редакторе сцены
         private void OnDrawGizmosSelected()
         {
             if (attackPoint != null)

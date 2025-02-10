@@ -1156,7 +1156,7 @@ MonoBehaviour:
   _maxHealth: 5
   _health: 5
   _rigidbodySword: {fileID: 509974735233883844}
-  _swordTransform: {fileID: 0}
+  _swordTransform: {fileID: 8555197460708325661}
 --- !u!114 &7062376898544624900
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,14 +18,13 @@ namespace Codebase.Player
         [SerializeField] private float _attackCooldownTime = 1f; // Время задержки между атаками
 
         private static readonly int AttackTrigger = Animator.StringToHash("Shoot");
-        private bool _isAttacking;
         private float _attackCooldown;
 
         private void Update()
         {
             _attackCooldown -= Time.deltaTime;
 
-            if (_desktopInput.Fire && !_isAttacking && _attackCooldown <= 0f)
+            if (_desktopInput.Fire && _attackCooldown <= 0f)
             {
                 Attack();
             }
@@ -33,15 +32,13 @@ namespace Codebase.Player
 
         private void Attack()
         {
-            _isAttacking = true;
             _attackCooldown = _attackCooldownTime; // Устанавливаем кулдаун атаки
-            PerformAttack();
+            _playerAnimation.SetTrigger(AttackTrigger);
         }
 
-        private void PerformAttack()
+        // Этот метод вызывается через событие в анимации
+        public void DealDamage()
         {
-            _playerAnimation.SetTrigger(AttackTrigger);
-
             Collider[] hitEnemies = Physics.OverlapSphere(_attackPoint.position, _attackRange, _enemyLayer);
 
             foreach (Collider enemy in hitEnemies)
@@ -51,9 +48,6 @@ namespace Codebase.Player
                     enemyHealth.TakeDamage(_damage);
                 }
             }
-
-            OnAttack?.Invoke();
-            _isAttacking = false;
         }
 
         private void OnDrawGizmosSelected()

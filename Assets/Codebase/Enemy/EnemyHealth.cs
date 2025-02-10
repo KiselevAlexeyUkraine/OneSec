@@ -9,36 +9,54 @@ namespace Enemy
         public event Action OnEnemyDamaged;
 
         [SerializeField] private int maxHealth = 3;
+        [SerializeField] private Animator _animator;
+
         private int _currentHealth;
-        private EnemyDeathEffect _deathEffect;
+        private EnemyAttack _enemyAttack;
         public bool IsDie { get; private set; }
+
+        private static readonly int DeathTrigger = Animator.StringToHash("Death");
 
         private void Awake()
         {
             _currentHealth = maxHealth;
-            _deathEffect = GetComponent<EnemyDeathEffect>();
-
-            // Подписываем метод Die() на событие OnEnemyDied (без вызова!)
-            OnEnemyDied += _deathEffect.Die;
+            _enemyAttack = GetComponent<EnemyAttack>();
         }
 
         public void TakeDamage(int amount)
         {
-            if (_currentHealth > 0)
+            if (IsDie) return; // Если враг уже мертв, урон не проходит
+
+            _currentHealth -= amount;
+            Debug.Log("Наносим урон врагу");
+
+            OnEnemyDamaged?.Invoke();
+
+            if (_currentHealth <= 0)
             {
-                _currentHealth -= amount;
-                Debug.Log("Наносим урон врагу");
-                _deathEffect.TakeDamage();
-                OnEnemyDamaged?.Invoke();
-
-                if (_currentHealth <= 0)
-                {
-                    IsDie = true;
-
-                    // Вызываем событие, которое запустит подписанные методы (например, _deathEffect.Die)
-                    OnEnemyDied?.Invoke();
-                }
+                Die();
             }
+        }
+
+        private void Die()
+        {
+            if (IsDie) return;
+
+            IsDie = true;
+            _animator.SetTrigger(DeathTrigger); // Запуск анимации смерти
+
+            // Отключаем атаку и движение
+            if (_enemyAttack != null)
+            {
+                _enemyAttack.enabled = false;
+            }
+
+            // Вызываем событие смерти
+            OnEnemyDied?.Invoke();
+
+            // Очищаем события, чтобы избежать утечек памяти
+            OnEnemyDied = null;
+            OnEnemyDamaged = null;
         }
     }
 }

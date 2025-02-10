@@ -1,41 +1,34 @@
 using UnityEngine;
-using PrimeTween;
 
 namespace Enemy
 {
     public class EnemyDeathEffect : MonoBehaviour
     {
-        private BoxCollider m_BoxCollider;
-        [SerializeField] private ParticleSystem m_ParticleSystem;
+        private BoxCollider _boxCollider;
+        [SerializeField] private ParticleSystem _particleSystem;
+        [SerializeField] private Animator _animator;
 
         private void Awake()
         {
-            m_BoxCollider = GetComponent<BoxCollider>();
-            m_ParticleSystem.Stop();
+            _boxCollider = GetComponent<BoxCollider>();
+            _particleSystem.Stop();
         }
 
         public void Die()
         {
             GetComponent<EnemyMovement>().enabled = false; // Отключаем движение
-            m_BoxCollider.enabled = false;
-
-            Tween.LocalScale(transform, new Vector3(1f, 0.3f, 1f), 0.2f, Ease.InBounce)
-                .OnComplete(() =>
-                    Tween.Position(transform, transform.position + Vector3.up * 0.5f, 0.2f, Ease.OutQuad)
-                    .OnComplete(() =>
-                        Tween.Rotation(transform, Quaternion.Euler(0, 0, 180f), 0.3f, Ease.InOutQuad)
-                        .OnComplete(() =>
-                            Tween.LocalScale(transform, Vector3.zero, 0.3f, Ease.InBack)
-                            .OnComplete(() => Destroy(gameObject))
-                        )
-                    )
-                );
+            _boxCollider.enabled = false;
         }
 
         public void TakeDamage()
         {
-            m_ParticleSystem.Play();
+            _particleSystem.Play();
+        }
+
+        // Вызывается в конце анимации смерти (Animation Event)
+        public void DestroyEnemy()
+        {
+            Destroy(gameObject);
         }
     }
 }
-

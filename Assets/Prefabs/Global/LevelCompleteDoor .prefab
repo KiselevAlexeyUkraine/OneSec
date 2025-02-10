@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 888377558090355865}
+  - component: {fileID: 257861830566437984}
   m_Layer: 0
   m_Name: door 1
   m_TagString: Untagged
@@ -34,6 +35,27 @@ Transform:
   - {fileID: 2770559867601776483}
   m_Father: {fileID: 3358740019366855540}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!65 &257861830566437984
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513399371846897187}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 4, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1218371891366966730
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +132,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1.5, y: 1, z: 2}
-  m_Center: {x: 0, y: -1.81, z: -1.2}
+  m_Center: {x: 0, y: -1.5, z: -0.72}
 --- !u!95 &6585361224438550398
 Animator:
   serializedVersion: 5
