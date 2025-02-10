@@ -20,6 +20,7 @@ namespace Codebase.Player
         [SerializeField]
         private Transform _swordTransform;
 
+        private bool _isDead = false; // Флаг смерти игрока
 
         public int MaxHealth => _maxHealth;
         public int Health => _health;
@@ -28,11 +29,12 @@ namespace Codebase.Player
         {
             _rigidbodySword.useGravity = false;
             _health = _maxHealth;
+            _isDead = false;
         }
 
         public void IncreaseHealth(int amount = 1)
         {
-            if (amount > 0)
+            if (!_isDead && amount > 0)
             {
                 _health = Mathf.Clamp(_health + amount, 0, _maxHealth);
                 OnHealthChanged?.Invoke();
@@ -41,7 +43,7 @@ namespace Codebase.Player
 
         public void DecreaseHealth(int amount = 1)
         {
-            if (amount > 0)
+            if (!_isDead && amount > 0)
             {
                 _health = Mathf.Clamp(_health - amount, 0, _maxHealth);
                 OnHealthChanged?.Invoke();
@@ -60,12 +62,16 @@ namespace Codebase.Player
 
         private void Die()
         {
+            if (_isDead) return; // Если уже мертв, не выполнять повторно
+
+            _isDead = true;
             Debug.Log("Игрок умер!");
             OnPlayerDied?.Invoke();
+
             _rigidbodySword.useGravity = true;
-            _rigidbodySword.constraints &= ~RigidbodyConstraints.FreezePositionY; // Отключение только по Y
+            _rigidbodySword.constraints = RigidbodyConstraints.None; // Убираем все ограничения
+
             DetachSword();
-            // Здесь можно добавить респаун или завершение игры
         }
 
         private void DetachSword()

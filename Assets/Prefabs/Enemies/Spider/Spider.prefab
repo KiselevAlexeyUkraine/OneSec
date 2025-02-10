@@ -6111,6 +6111,7 @@ MonoBehaviour:
   _animator: {fileID: 3009569743150929737}
   attackPoint: {fileID: 5637851071703933572}
   attackRadius: 0.5
+  _movement: {fileID: 0}
 --- !u!65 &2238162427418551857
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6131,7 +6132,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 0.5, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!114 &5792999786585442512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6170,6 +6171,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   verticalThreshold: 1
+  stopChaseThreshold: 0.5
 --- !u!1 &5531755305753125592
 GameObject:
   m_ObjectHideFlags: 0

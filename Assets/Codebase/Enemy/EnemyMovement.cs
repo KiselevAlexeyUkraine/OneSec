@@ -10,6 +10,7 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody _rigidbody;
     private Vector3 _direction = Vector3.right;
     private bool _isGrounded;
+    private bool _canMove = true; // Флаг, разрешающий движение
 
     private float groundCheckDistance = 1f;
     private float obstacleCheckDistance = 1f;
@@ -27,6 +28,8 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!_canMove) return; // Если движение запрещено, выходим из метода
+
         CheckGroundAndObstacles();
         _patrol.Patrol(); // Выполняем патрулирование
         Move();
@@ -61,5 +64,13 @@ public class EnemyMovement : MonoBehaviour
     private void Flip()
     {
         SetDirection(-_direction);
+    }
+
+    /// <summary>
+    /// Отключает или включает движение врага.
+    /// </summary>
+    public void SetMovementEnabled(bool enabled)
+    {
+        _canMove = enabled;
     }
 }
