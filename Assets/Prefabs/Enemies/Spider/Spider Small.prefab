@@ -7004,6 +7004,7 @@ MonoBehaviour:
   _animator: {fileID: 7122044465261795475}
   attackPoint: {fileID: 6215253053385429083}
   attackRadius: 1
+  _movement: {fileID: 3141184589975051420}
 --- !u!65 &4854987296956197926
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -6110,8 +6110,8 @@ MonoBehaviour:
     m_Bits: 256
   _animator: {fileID: 3009569743150929737}
   attackPoint: {fileID: 5637851071703933572}
-  attackRadius: 0.5
-  _movement: {fileID: 0}
+  attackRadius: 1
+  _movement: {fileID: 7150779949326615371}
 --- !u!65 &2238162427418551857
 BoxCollider:
   m_ObjectHideFlags: 0

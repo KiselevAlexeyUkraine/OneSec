@@ -17,6 +17,7 @@ namespace Enemy
         [SerializeField] private EnemyMovement _movement; // Компонент движения
 
         private EnemyHealth _enemyHealth;
+        private PlayerHealth _playerHealth; // Ссылка на здоровье игрока
         private readonly int _attackTrigger = Animator.StringToHash("Attack");
         private bool _isAttacking = false; // Флаг атаки
 
@@ -33,10 +34,18 @@ namespace Enemy
                     Debug.LogError("Animator не найден на враге!");
                 }
             }
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                _playerHealth = player.GetComponent<PlayerHealth>();
+            }
         }
 
         private void OnTriggerEnter(Collider other)
         {
+            if (_playerHealth == null || _playerHealth.Health <= 0) return; // Не атаковать, если игрок мертв
+
             if (!_enemyHealth.IsDie && !_isAttacking && ((1 << other.gameObject.layer) & _targetLayerMask.value) != 0)
             {
                 StartAttack();
@@ -53,6 +62,8 @@ namespace Enemy
         // Метод, вызываемый из анимации удара (Animation Event)
         public void PerformSpiderAttack()
         {
+            if (_playerHealth == null || _playerHealth.Health <= 0) return; // Проверка на смерть игрока
+
             Collider[] hitColliders = Physics.OverlapSphere(attackPoint.position, attackRadius, _targetLayerMask);
             foreach (var hitCollider in hitColliders)
             {

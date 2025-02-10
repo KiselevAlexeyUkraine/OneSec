@@ -1,3 +1,4 @@
+using Codebase.Player;
 using UnityEngine;
 
 public class EnemyPatrol : MonoBehaviour
@@ -10,6 +11,7 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private float stopChaseThreshold = 0.01f; // ћинимальна€ дистанци€ дл€ остановки преследовани€
 
     private Transform player;
+    private PlayerHealth _playerHealth; // —сылка на здоровье игрока
     private EnemyMovement _movement;
     private bool _isChasing;
 
@@ -22,6 +24,7 @@ public class EnemyPatrol : MonoBehaviour
         if (playerObject != null)
         {
             player = playerObject.transform;
+            _playerHealth = playerObject.GetComponent<PlayerHealth>();
         }
         else
         {
@@ -31,6 +34,12 @@ public class EnemyPatrol : MonoBehaviour
 
     private void Update()
     {
+        if (_playerHealth == null || _playerHealth.Health <= 0)
+        {
+            _isChasing = false;
+            return; // ≈сли игрок мертв, прекращаем преследование
+        }
+
         DetectPlayer();
     }
 
@@ -49,7 +58,7 @@ public class EnemyPatrol : MonoBehaviour
 
     private void DetectPlayer()
     {
-        if (player == null) return;
+        if (player == null || _playerHealth == null || _playerHealth.Health <= 0) return; // Ќе преследовать, если игрок мертв
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         float heightDifference = Mathf.Abs(player.position.y - transform.position.y);

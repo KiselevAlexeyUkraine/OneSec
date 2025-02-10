@@ -11,16 +11,13 @@ namespace Codebase.Player
         public event Action OnHealthChanged;
         public event Action OnPlayerDied; // Событие смерти игрока
 
-        [SerializeField]
-        private int _maxHealth = 5;
-        [SerializeField]
-        private int _health = 5;
-        [SerializeField]
-        private Rigidbody _rigidbodySword;
-        [SerializeField]
-        private Transform _swordTransform;
+        [SerializeField] private int _maxHealth = 5;
+        [SerializeField] private int _health = 5;
+        [SerializeField] private Rigidbody _rigidbodySword;
+        [SerializeField] private Transform _swordTransform;
 
         private bool _isDead = false; // Флаг смерти игрока
+        private bool _levelCompleted = false; // Флаг завершения уровня
 
         public int MaxHealth => _maxHealth;
         public int Health => _health;
@@ -30,11 +27,12 @@ namespace Codebase.Player
             _rigidbodySword.useGravity = false;
             _health = _maxHealth;
             _isDead = false;
+            _levelCompleted = false;
         }
 
         public void IncreaseHealth(int amount = 1)
         {
-            if (!_isDead && amount > 0)
+            if (!_isDead && !_levelCompleted && amount > 0)
             {
                 _health = Mathf.Clamp(_health + amount, 0, _maxHealth);
                 OnHealthChanged?.Invoke();
@@ -43,7 +41,7 @@ namespace Codebase.Player
 
         public void DecreaseHealth(int amount = 1)
         {
-            if (!_isDead && amount > 0)
+            if (!_isDead && !_levelCompleted && amount > 0)
             {
                 _health = Mathf.Clamp(_health - amount, 0, _maxHealth);
                 OnHealthChanged?.Invoke();
@@ -57,7 +55,10 @@ namespace Codebase.Player
 
         public void TakeDamage(int amount)
         {
-            DecreaseHealth(amount);
+            if (!_levelCompleted) // Не получаем урон после завершения уровня
+            {
+                DecreaseHealth(amount);
+            }
         }
 
         private void Die()
@@ -80,6 +81,15 @@ namespace Codebase.Player
             {
                 _swordTransform.SetParent(null); // Отсоединяем меч от руки
             }
+        }
+
+        /// <summary>
+        /// Вызывается при завершении уровня, предотвращая получение урона.
+        /// </summary>
+        public void CompleteLevel()
+        {
+            _levelCompleted = true;
+            Debug.Log("Игрок завершил уровень! Больше не получает урон.");
         }
     }
 }

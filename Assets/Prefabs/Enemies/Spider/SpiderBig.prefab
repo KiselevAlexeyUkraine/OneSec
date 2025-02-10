@@ -7059,6 +7059,7 @@ MonoBehaviour:
   _animator: {fileID: 4509616709567581048}
   attackPoint: {fileID: 297746255786610433}
   attackRadius: 1
+  _movement: {fileID: 4082596619434077528}
 --- !u!65 &4892020656439228762
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7118,7 +7119,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   verticalThreshold: 1
-  stopChaseThreshold: 0.01
+  stopChaseThreshold: 0.5
 --- !u!1 &9153062766013359757
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,6 +34,7 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log("Уровень завершён. Игрок погиб.");
         _cursorToggle.Enable();
+        _playerHealth.CompleteLevel(); // Отключаем получение урона
         _playerCombat.enabled = false;
         _playerMovement.IsDie = true;
         _pageSwitcher.Open(PageName.Failed);
@@ -46,6 +47,7 @@ public class LevelManager : MonoBehaviour
     public void EndLevelVictory()
     {
         Debug.Log("Уровень завершён. Победа!");
+        _playerHealth.CompleteLevel(); // Отключаем получение урона
         _cursorToggle.Enable();
         _playerCombat.enabled = false;
         _playerMovement.IsDie = true; // Фиксируем состояние игрока (например, чтобы остановить дальнейшее управление)
