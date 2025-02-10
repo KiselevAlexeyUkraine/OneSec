@@ -18,6 +18,7 @@ namespace Enemy
 
         private EnemyHealth _enemyHealth;
         private PlayerHealth _playerHealth; // Ссылка на здоровье игрока
+        private LevelManager _levelManager; // Ссылка на менеджер уровня
         private readonly int _attackTrigger = Animator.StringToHash("Attack");
         private bool _isAttacking = false; // Флаг атаки
 
@@ -25,6 +26,7 @@ namespace Enemy
         {
             _enemyHealth = GetComponent<EnemyHealth>();
             _movement = GetComponent<EnemyMovement>();
+            _levelManager = FindObjectOfType<LevelManager>();
 
             if (_animator == null)
             {
@@ -44,7 +46,7 @@ namespace Enemy
 
         private void OnTriggerEnter(Collider other)
         {
-            if (_playerHealth == null || _playerHealth.Health <= 0) return; // Не атаковать, если игрок мертв
+            if (_playerHealth == null || _playerHealth.Health <= 0 || _levelManager == null || _levelManager.IsLevelCompleted) return;
 
             if (!_enemyHealth.IsDie && !_isAttacking && ((1 << other.gameObject.layer) & _targetLayerMask.value) != 0)
             {
@@ -62,7 +64,7 @@ namespace Enemy
         // Метод, вызываемый из анимации удара (Animation Event)
         public void PerformSpiderAttack()
         {
-            if (_playerHealth == null || _playerHealth.Health <= 0) return; // Проверка на смерть игрока
+            if (_playerHealth == null || _playerHealth.Health <= 0 || _levelManager == null || _levelManager.IsLevelCompleted) return;
 
             Collider[] hitColliders = Physics.OverlapSphere(attackPoint.position, attackRadius, _targetLayerMask);
             foreach (var hitCollider in hitColliders)

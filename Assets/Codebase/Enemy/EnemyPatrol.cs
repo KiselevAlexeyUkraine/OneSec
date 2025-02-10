@@ -12,12 +12,14 @@ public class EnemyPatrol : MonoBehaviour
 
     private Transform player;
     private PlayerHealth _playerHealth; // —сылка на здоровье игрока
+    private LevelManager _levelManager; // —сылка на менеджер уровн€
     private EnemyMovement _movement;
     private bool _isChasing;
 
     private void Awake()
     {
         _movement = GetComponent<EnemyMovement>();
+        _levelManager = FindObjectOfType<LevelManager>();
 
         // »щем игрока по тегу "Player"
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
@@ -34,10 +36,10 @@ public class EnemyPatrol : MonoBehaviour
 
     private void Update()
     {
-        if (_playerHealth == null || _playerHealth.Health <= 0)
+        if (_playerHealth == null || _playerHealth.Health <= 0 || _levelManager == null || _levelManager.IsLevelCompleted)
         {
             _isChasing = false;
-            return; // ≈сли игрок мертв, прекращаем преследование
+            return; // ≈сли игрок мертв или уровень завершен, прекращаем преследование
         }
 
         DetectPlayer();
@@ -58,12 +60,11 @@ public class EnemyPatrol : MonoBehaviour
 
     private void DetectPlayer()
     {
-        if (player == null || _playerHealth == null || _playerHealth.Health <= 0) return; // Ќе преследовать, если игрок мертв
+        if (player == null || _playerHealth == null || _playerHealth.Health <= 0 || _levelManager == null || _levelManager.IsLevelCompleted) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         float heightDifference = Mathf.Abs(player.position.y - transform.position.y);
 
-        // ≈сли игрок слишком далеко, слишком высоко/низко или очень близко Ч прекращаем преследование
         if (distanceToPlayer > maxChaseDistance || heightDifference > verticalThreshold || distanceToPlayer < stopChaseThreshold)
         {
             _isChasing = false;
@@ -73,15 +74,14 @@ public class EnemyPatrol : MonoBehaviour
         Vector3 rayDirection = (player.position - transform.position).normalized;
         RaycastHit hit;
 
-        // ¬ыпускаем луч в сторону игрока и провер€ем, нет ли преп€тствий (groundLayer)
         if (Physics.Raycast(transform.position, rayDirection, out hit, detectionRange, playerLayer | groundLayer))
         {
-            if (((1 << hit.collider.gameObject.layer) & playerLayer) != 0) // ≈сли попали в игрока
+            if (((1 << hit.collider.gameObject.layer) & playerLayer) != 0)
             {
                 _isChasing = true;
                 _movement.SetDirection(new Vector3(Mathf.Sign(rayDirection.x), 0f, 0f));
             }
-            else if (((1 << hit.collider.gameObject.layer) & groundLayer) != 0) // ≈сли на пути преп€тствие
+            else if (((1 << hit.collider.gameObject.layer) & groundLayer) != 0)
             {
                 _isChasing = false;
             }

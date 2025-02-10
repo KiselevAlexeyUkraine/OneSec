@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private PlayerCombat _playerCombat;
     [SerializeField] private CursorToggle _cursorToggle = new();
+    public bool IsLevelCompleted { get; private set; } = false; // Новый флаг завершения уровня
+
 
     private void Awake()
     {
@@ -47,10 +49,11 @@ public class LevelManager : MonoBehaviour
     public void EndLevelVictory()
     {
         Debug.Log("Уровень завершён. Победа!");
-        _playerHealth.CompleteLevel(); // Отключаем получение урона
+        IsLevelCompleted = true; // Флаг завершения уровня
+        _playerHealth.CompleteLevel();
         _cursorToggle.Enable();
         _playerCombat.enabled = false;
-        _playerMovement.IsDie = true; // Фиксируем состояние игрока (например, чтобы остановить дальнейшее управление)
-        _pageSwitcher.Open(PageName.Complete); // Здесь предполагается, что у вас есть страница для победы
+        _playerMovement.IsDie = true;
+        _pageSwitcher.Open(PageName.Complete);
     }
 }

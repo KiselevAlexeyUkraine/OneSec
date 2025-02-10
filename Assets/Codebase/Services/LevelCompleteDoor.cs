@@ -5,8 +5,8 @@ public class LevelCompleteDoor : MonoBehaviour
 {
     [Header("Настройки завершения уровня")]
     [SerializeField] private LayerMask _playerLayerMask; // Слой, определяющий игрока
-    [SerializeField] private Animator _doorAnimator;       // Аниматор двери (если используется анимация)
-    [SerializeField] private string _openTrigger = "Open";   // Имя триггера для анимации открытия двери
+    [SerializeField] private Animator _doorAnimator; // Аниматор двери (если используется анимация)
+    [SerializeField] private string _openTrigger = "Open"; // Имя триггера для анимации открытия двери
     private LevelManager _levelManager;
     [SerializeField] private AudioSource _doorAudio; // Аудио для звука открытия двери
     [SerializeField] private AudioClip _doorOpenClip; // Звук открытия двери
@@ -20,7 +20,7 @@ public class LevelCompleteDoor : MonoBehaviour
 
     /// <summary>
     /// При входе объекта в область завершения уровня проверяем, является ли он игроком.
-    /// Если у игрока есть хотя бы один ключ, дверь открывается.
+    /// Если у игрока есть хотя бы один ключ и он жив, дверь открывается.
     /// </summary>
     /// <param name="other">Другой Collider</param>
     private void OnTriggerEnter(Collider other)
@@ -28,8 +28,16 @@ public class LevelCompleteDoor : MonoBehaviour
         // Проверяем, принадлежит ли объект заданному слою
         if (((1 << other.gameObject.layer) & _playerLayerMask.value) != 0 && !_isDoorOpened)
         {
-            // Пытаемся получить компонент PlayerCollector у игрока
+            // Пытаемся получить компоненты PlayerCollector и PlayerHealth у игрока
             PlayerCollector collector = other.GetComponent<PlayerCollector>();
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null && playerHealth.Health <= 0)
+            {
+                Debug.Log("Игрок мертв и не может завершить уровень!");
+                return; // Если игрок мертв, выход из метода
+            }
+
             if (collector != null)
             {
                 if (collector.KeysCount > 0)
@@ -71,8 +79,7 @@ public class LevelCompleteDoor : MonoBehaviour
             _doorAudio.PlayOneShot(_doorOpenClip);
         }
 
-        // Дополнительная логика завершения уровня (например, загрузка следующей сцены)
+        // Дополнительная логика завершения уровня
         Debug.Log("Уровень завершён!");
-
     }
 }
