@@ -14,7 +14,6 @@ namespace Codebase.Player
         [SerializeField] private AudioClip _deathClip;
 
         private PlayerMovement _movement;
-        private PlayerCombat _combat;
         private PlayerHealth _health;
 
         private bool _wasJumping; // Следит за тем, когда игрок был в прыжке
@@ -23,14 +22,12 @@ namespace Codebase.Player
         private void Awake()
         {
             _movement = GetComponent<PlayerMovement>();
-            _combat = GetComponent<PlayerCombat>();
             _health = GetComponent<PlayerHealth>();
 
             _movement.OnJumpStarted += PlayJumpSound;
             _movement.OnStartRunning += PlayRunSound;
             _movement.OnStopRunning += StopWalkingSounds;
             _movement.OnStartIdle += PlayIdleSound;
-            _combat.OnAttack += PlayAttackSound;
             _health.OnPlayerDied += PlayDeathSound;
             _health.OnHealthChanged += PlayDamageSound;
         }
@@ -77,7 +74,7 @@ namespace Codebase.Player
             }
         }
 
-        private void PlayAttackSound()
+        public void PlayAttackSound()
         {
             if (_isDead) return;
 

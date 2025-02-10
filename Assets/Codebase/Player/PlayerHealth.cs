@@ -15,12 +15,18 @@ namespace Codebase.Player
         private int _maxHealth = 5;
         [SerializeField]
         private int _health = 5;
+        [SerializeField]
+        private Rigidbody _rigidbodySword;
+        [SerializeField]
+        private Transform _swordTransform;
+
 
         public int MaxHealth => _maxHealth;
         public int Health => _health;
 
         private void Awake()
         {
+            _rigidbodySword.useGravity = false;
             _health = _maxHealth;
         }
 
@@ -56,7 +62,18 @@ namespace Codebase.Player
         {
             Debug.Log("Игрок умер!");
             OnPlayerDied?.Invoke();
+            _rigidbodySword.useGravity = true;
+            _rigidbodySword.constraints &= ~RigidbodyConstraints.FreezePositionY; // Отключение только по Y
+            DetachSword();
             // Здесь можно добавить респаун или завершение игры
+        }
+
+        private void DetachSword()
+        {
+            if (_swordTransform != null)
+            {
+                _swordTransform.SetParent(null); // Отсоединяем меч от руки
+            }
         }
     }
 }

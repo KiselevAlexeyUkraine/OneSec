@@ -18,13 +18,15 @@ namespace Codebase.Components.Ui.Pages.Menu
         private AudioSource _audioSource;
         [SerializeField]
         private AudioClip _hoverSound;
+        [SerializeField]
+        private AudioClip _clickSound;
 
         private void Awake()
         {
-            _start.onClick.AddListener(() => { SceneSwitcher.Instance.LoadNextScene(); });
-            _settings.onClick.AddListener(() => { PageSwitcher.Open(PageName.Settings); });
-            _authors.onClick.AddListener(() => { PageSwitcher.Open(PageName.Authors); });
-            _exit.onClick.AddListener(() => { PageSwitcher.Open(PageName.Exit); });
+            _start.onClick.AddListener(() => { PlayClickSound(); SceneSwitcher.Instance.LoadNextScene(); });
+            _settings.onClick.AddListener(() => { PlayClickSound(); PageSwitcher.Open(PageName.Settings); });
+            _authors.onClick.AddListener(() => { PlayClickSound(); PageSwitcher.Open(PageName.Authors); });
+            _exit.onClick.AddListener(() => { PlayClickSound(); PageSwitcher.Open(PageName.Exit); });
 
             AddHoverSound(_start);
             AddHoverSound(_settings);
@@ -56,6 +58,14 @@ namespace Codebase.Components.Ui.Pages.Menu
             if (_audioSource != null && _hoverSound != null)
             {
                 _audioSource.PlayOneShot(_hoverSound);
+            }
+        }
+
+        private void PlayClickSound()
+        {
+            if (_audioSource != null && _clickSound != null)
+            {
+                _audioSource.PlayOneShot(_clickSound);
             }
         }
     }

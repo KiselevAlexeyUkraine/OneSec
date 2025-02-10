@@ -5386,6 +5386,7 @@ MonoBehaviour:
   _exit: {fileID: 1569620592}
   _audioSource: {fileID: 551683629}
   _hoverSound: {fileID: 8300000, guid: 4b2a368fcd8813d4c8d4da8c40e72312, type: 3}
+  _clickSound: {fileID: 8300000, guid: cc6d678bbfa114191bb42930df870e15, type: 3}
 --- !u!1 &1936607150
 GameObject:
   m_ObjectHideFlags: 0

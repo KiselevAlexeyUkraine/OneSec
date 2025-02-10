@@ -33,7 +33,6 @@ public class LevelManager : MonoBehaviour
     private void EndLevelFailure()
     {
         Debug.Log("Уровень завершён. Игрок погиб.");
-        Time.timeScale = 0; // Останавливаем игру
         _cursorToggle.Enable();
         _playerCombat.enabled = false;
         _playerMovement.IsDie = true;
@@ -47,7 +46,6 @@ public class LevelManager : MonoBehaviour
     public void EndLevelVictory()
     {
         Debug.Log("Уровень завершён. Победа!");
-        Time.timeScale = 0; // Останавливаем игру
         _cursorToggle.Enable();
         _playerCombat.enabled = false;
         _playerMovement.IsDie = true; // Фиксируем состояние игрока (например, чтобы остановить дальнейшее управление)

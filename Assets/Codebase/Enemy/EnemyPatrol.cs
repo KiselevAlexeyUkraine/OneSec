@@ -7,6 +7,7 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private LayerMask groundLayer; // Слой препятствий
     [SerializeField] private float verticalThreshold = 1.5f; // Максимальная разница по высоте для преследования
+    [SerializeField] private float stopChaseThreshold = 0.01f; // Минимальная дистанция для остановки преследования
 
     private Transform player;
     private EnemyMovement _movement;
@@ -53,8 +54,8 @@ public class EnemyPatrol : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         float heightDifference = Mathf.Abs(player.position.y - transform.position.y);
 
-        // Если игрок слишком далеко или находится слишком высоко/низко — прекращаем преследование
-        if (distanceToPlayer > maxChaseDistance || heightDifference > verticalThreshold)
+        // Если игрок слишком далеко, слишком высоко/низко или очень близко — прекращаем преследование
+        if (distanceToPlayer > maxChaseDistance || heightDifference > verticalThreshold || distanceToPlayer < stopChaseThreshold)
         {
             _isChasing = false;
             return;
