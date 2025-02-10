@@ -6059,6 +6059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 2
+  _animator: {fileID: 3009569743150929737}
 --- !u!114 &7150779949326615371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6091,7 +6092,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520c7ac33aac6e342a272473ea4d2149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ParticleSystem: {fileID: 1715385058057655430}
+  _particleSystem: {fileID: 1715385058057655430}
+  _animator: {fileID: 3009569743150929737}
 --- !u!114 &7179878504578128209
 MonoBehaviour:
   m_ObjectHideFlags: 0
