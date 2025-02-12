@@ -48,7 +48,7 @@ namespace Enemy
 
         public void PlayAttackSound()
         {
-            if (_attackClip != null)
+            if (_attackClip != null && _audioSource != null)
             {
                 _audioSource.clip = _attackClip;
                 _audioSource.loop = false;
@@ -59,7 +59,7 @@ namespace Enemy
 
         private void PlayDamageSound()
         {
-            if (_damageClip != null)
+            if (_damageClip != null && _audioSource != null)
             {
                 _audioSource.clip = _damageClip;
                 _audioSource.loop = false;
@@ -69,11 +69,21 @@ namespace Enemy
 
         private void PlayDeathSound()
         {
-            if (_deathClip != null)
+            if (_deathClip != null && _audioSource != null)
             {
                 _audioSource.clip = _deathClip;
                 _audioSource.loop = false;
                 _audioSource.Play();
+                Invoke(nameof(DisableAudioSource), _deathClip.length);
+            }
+        }
+
+        private void DisableAudioSource()
+        {
+            if (_audioSource != null)
+            {
+                _audioSource.Stop();
+                _audioSource.enabled = false;
             }
         }
     }

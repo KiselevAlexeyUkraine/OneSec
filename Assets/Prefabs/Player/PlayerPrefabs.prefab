@@ -1038,7 +1038,7 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 8
-  _groundCheckSize: {x: 1, y: 0.1, z: 0.5}
+  _groundCheckSize: {x: 1, y: 0.2, z: 0.5}
 --- !u!143 &5716653862491196710
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1409,8 +1409,8 @@ PolygonCollider2D:
     - - {x: 5, y: 25}
       - {x: 5, y: 25}
       - {x: 5, y: 2.5}
-      - {x: 70, y: 2.5}
-      - {x: 70, y: 25}
+      - {x: 73, y: 2.5}
+      - {x: 73, y: 25}
   m_UseDelaunayMesh: 0
 --- !u!1 &3842232143388409334
 GameObject:
