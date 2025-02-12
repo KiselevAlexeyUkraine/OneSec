@@ -1,3 +1,4 @@
+using Codebase.Player;
 using UnityEngine;
 
 public class EnemyPatrol : MonoBehaviour
@@ -12,16 +13,20 @@ public class EnemyPatrol : MonoBehaviour
     private Transform player;
     private EnemyMovement _movement;
     private bool _isChasing;
+    private PlayerHealth _playerHealth;
+    private LevelManager _levelManager;
 
     private void Awake()
     {
         _movement = GetComponent<EnemyMovement>();
+        _levelManager = FindObjectOfType<LevelManager>();
 
         // »щем игрока по тегу "Player"
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         if (playerObject != null)
         {
             player = playerObject.transform;
+            _playerHealth = player.GetComponent<PlayerHealth>();
         }
         else
         {
@@ -31,6 +36,12 @@ public class EnemyPatrol : MonoBehaviour
 
     private void Update()
     {
+        if (_playerHealth != null && _playerHealth.Health <= 0 || (_levelManager != null && _levelManager.IsLevelCompleted))
+        {
+            _isChasing = false;
+            return;
+        }
+
         DetectPlayer();
     }
 
