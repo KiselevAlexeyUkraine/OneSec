@@ -45,6 +45,10 @@ namespace Codebase.Player
         private void HandleGroundedSounds()
         {
             if (_isDead) return; // Не обрабатываем звуки после смерти
+            if (_movement.IsGrounded == false)
+            {
+                StopWalkingSounds();
+            }
 
             if (_movement.IsJumping)
             {
