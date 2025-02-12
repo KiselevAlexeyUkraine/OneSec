@@ -6395,6 +6395,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1543904452}
     m_Modifications:
+    - target: {fileID: 3855320894880291617, guid: b4daedd1f5e158f42bb1b050aeb26927,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3855320894880291617, guid: b4daedd1f5e158f42bb1b050aeb26927,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3855320894880291617, guid: b4daedd1f5e158f42bb1b050aeb26927,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4317485782223168986, guid: b4daedd1f5e158f42bb1b050aeb26927,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6445,10 +6460,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5214304306154092490, guid: b4daedd1f5e158f42bb1b050aeb26927,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5333212100395074793, guid: b4daedd1f5e158f42bb1b050aeb26927,
         type: 3}
       propertyPath: m_Name
       value: Spider Small
+      objectReference: {fileID: 0}
+    - target: {fileID: 9216826282678552947, guid: b4daedd1f5e158f42bb1b050aeb26927,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.97
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6523,6 +6548,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Spider
+      objectReference: {fileID: 0}
+    - target: {fileID: 1715385058057655430, guid: c57977c72c5bddb418962ae46a1621da,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1715385058057655430, guid: c57977c72c5bddb418962ae46a1621da,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

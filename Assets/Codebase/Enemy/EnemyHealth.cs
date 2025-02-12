@@ -11,6 +11,7 @@ namespace Enemy
 
         [SerializeField] private int maxHealth = 3;
         [SerializeField] private Animator _animator;
+        [SerializeField] private EnemyDeathEffect _deathEffect;
 
         private int _currentHealth;
         private EnemyAttack _enemyAttack;
@@ -26,6 +27,16 @@ namespace Enemy
             _enemyAttack = GetComponent<EnemyAttack>();
             _enemyMovement = GetComponent<EnemyMovement>();
             _enemyPatrol = GetComponent<EnemyPatrol>();
+            _deathEffect = GetComponent<EnemyDeathEffect>();
+
+        }
+
+        private void Start()
+        {
+            if (_deathEffect != null)
+            {
+                OnEnemyDamaged += _deathEffect.TakeDamage;
+            }
 
             if (_animator == null)
             {

@@ -162,7 +162,7 @@ namespace Codebase.Player
             }
         }
 
-        private void StopAllSounds()
+        public void StopAllSounds()
         {
             _audioSource.Stop();
             _audioSource.clip = null;

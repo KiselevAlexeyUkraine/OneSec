@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private PageSwitcher _pageSwitcher;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private PlayerCombat _playerCombat;
+    [SerializeField] private PlayerAudio _playerAudio;
     [SerializeField] private CursorToggle _cursorToggle = new();
     public bool IsLevelCompleted { get; private set; } = false; // Новый флаг завершения уровня
 
@@ -54,6 +55,7 @@ public class LevelManager : MonoBehaviour
         _cursorToggle.Enable();
         _playerCombat.enabled = false;
         _playerMovement.IsDie = true;
+        _playerAudio.StopAllSounds();
         _pageSwitcher.Open(PageName.Complete);
     }
 }

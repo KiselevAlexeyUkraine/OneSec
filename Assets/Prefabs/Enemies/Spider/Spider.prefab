@@ -997,8 +997,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.3
-      minScalar: 0.8
+      scalar: 0.5
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6060,6 +6060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 2
   _animator: {fileID: 3009569743150929737}
+  _deathEffect: {fileID: 0}
 --- !u!114 &7150779949326615371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6093,7 +6094,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _particleSystem: {fileID: 1715385058057655430}
-  _animator: {fileID: 3009569743150929737}
 --- !u!114 &7179878504578128209
 MonoBehaviour:
   m_ObjectHideFlags: 0

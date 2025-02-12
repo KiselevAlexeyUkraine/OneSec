@@ -10,6 +10,7 @@ public class LevelCompleteDoor : MonoBehaviour
     private LevelManager _levelManager;
     [SerializeField] private AudioSource _doorAudio; // Аудио для звука открытия двери
     [SerializeField] private AudioClip _doorOpenClip; // Звук открытия двери
+    [SerializeField] private Collider _doorCollider;
 
     private bool _isDoorOpened = false;
 
@@ -64,9 +65,10 @@ public class LevelCompleteDoor : MonoBehaviour
     private void OpenDoor()
     {
         _isDoorOpened = true;
-        if (_doorAnimator != null)
+        if (_doorAnimator != null && _doorCollider != null)
         {
             _doorAnimator.SetTrigger(_openTrigger);
+            _doorCollider.enabled = false;
         }
         else
         {
