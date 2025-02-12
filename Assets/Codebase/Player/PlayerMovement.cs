@@ -152,7 +152,7 @@ namespace Codebase.Player
 
             if (IsGrounded && _velocity.y < 0f)
             {
-                _velocity.y = _gravity + 5f;
+                _velocity.y = _gravity + 7f;
                 IsJumping = false;
             }
 
