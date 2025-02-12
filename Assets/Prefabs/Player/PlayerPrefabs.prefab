@@ -2196,9 +2196,9 @@ RectTransform:
   - {fileID: 5304588739729159690}
   m_Father: {fileID: 6994903558449201227}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 172.5, y: -169.16667}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4447461472927241798
@@ -4406,9 +4406,9 @@ RectTransform:
   - {fileID: 674216676048342812}
   m_Father: {fileID: 6994903558449201227}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 172.5, y: -97.50001}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4650669418720980260
@@ -4497,9 +4497,9 @@ RectTransform:
   - {fileID: 3259455883987532561}
   m_Father: {fileID: 6994903558449201227}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 172.5, y: -25.833334}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8058470294216138944
@@ -5666,6 +5666,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6768821433620406235, guid: d851fec31ea1e1b429056f1f628a1188,
+        type: 3}
+      propertyPath: _playerAudio
+      value: 
+      objectReference: {fileID: 4982194183710911899}
     - target: {fileID: 6768821433620406235, guid: d851fec31ea1e1b429056f1f628a1188,
         type: 3}
       propertyPath: _pageSwitcher
