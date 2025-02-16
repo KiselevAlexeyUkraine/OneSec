@@ -25,6 +25,14 @@ namespace Codebase.Services
             Play();
         }
 
+        private void Start()
+        {
+            if (SceneSwitcher.Instance.CurrentScene == 2)
+            {
+                Pause();
+            }
+        }
+
         private void Update()
         {
             if (_desktopInput.Escape)

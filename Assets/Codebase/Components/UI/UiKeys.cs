@@ -47,7 +47,7 @@ namespace Codebase.Components.Ui
         /// <param name="keysCount">Текущее количество ключей</param>
         private void UpdateKeysUI(int keysCount)
         {
-            _keysText.text = "Ключи: " + keysCount + " / 1";
+            _keysText.text = "Keys: " + keysCount + " / 1";
         }
     }
 }
