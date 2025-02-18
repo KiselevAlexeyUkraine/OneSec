@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ca4e55df26a594385e70618b86715d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skybox: {fileID: 2100000, guid: 528151d023d6b4041a05f751069e15b6, type: 2}
+  skybox: {fileID: 2100000, guid: fda2574e5db31a94599bd9a1d042e6ab, type: 2}
   angleSpeed: 2
   gradient:
     serializedVersion: 2
